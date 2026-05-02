@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marion & Mickaël · 23 Août 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9974A; --gold-light: #E8C87A; --gold-pale: #F5E9C8;
+    --green-dark: #2D4A2A; --green-mid: #4A7A45; --green-light: #7FB87A;
+    --cream: #FDF8F0; --cream-dark: #F0E8D8;
+    --text-dark: #2A2018; --text-mid: #5A4A35; --text-light: #8A7A65;
+    --white: #FFFFFF;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'Jost',sans-serif; background:var(--cream); color:var(--text-dark); overflow-x:hidden; }
+
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(253,248,240,0.92); backdrop-filter:blur(8px);
+    border-bottom:1px solid rgba(201,151,74,0.2);
+    padding:0 2rem; display:flex; align-items:center; justify-content:center;
+    height:60px; gap:2.5rem;
+  }
+  nav a { text-decoration:none; font-size:11px; font-weight:500; letter-spacing:0.15em; text-transform:uppercase; color:var(--text-mid); transition:color 0.2s; }
+  nav a:hover { color:var(--gold); }
+
+  #hero { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative; overflow:hidden; padding:80px 2rem 4rem; }
+  .hero-bg { position:absolute; inset:0; background:radial-gradient(ellipse at 20% 30%,rgba(127,184,122,0.12) 0%,transparent 60%),radial-gradient(ellipse at 80% 70%,rgba(201,151,74,0.10) 0%,transparent 60%); }
+  .corner { position:absolute; pointer-events:none; }
+  .corner-tl { top:0; left:0; width:280px; }
+  .corner-tr { top:0; right:0; width:220px; transform:scaleX(-1); }
+  .corner-br { bottom:0; right:0; width:280px; transform:rotate(180deg); }
+
+  .hero-content { position:relative; z-index:2; text-align:center; max-width:600px; }
+  .hero-subtitle { font-size:11px; letter-spacing:0.3em; text-transform:uppercase; color:var(--gold); font-weight:500; margin-bottom:1.5rem; }
+  .hero-names { font-family:'Cormorant Garamond',serif; font-size:clamp(3.5rem,10vw,6rem); font-weight:300; line-height:1.1; color:var(--text-dark); }
+  .hero-names .amp { font-style:italic; color:var(--gold); font-size:0.8em; }
+  .hero-divider { display:flex; align-items:center; gap:1rem; margin:1.5rem 0; justify-content:center; }
+  .hdl { height:1px; width:60px; background:linear-gradient(to right,transparent,var(--gold)); }
+  .hdl.r { transform:scaleX(-1); }
+  .hdd { width:6px; height:6px; background:var(--gold); transform:rotate(45deg); }
+  .hero-date { font-family:'Cormorant Garamond',serif; font-size:1.5rem; font-weight:300; color:var(--text-mid); letter-spacing:0.05em; margin-bottom:0.5rem; }
+  .hero-lieu { font-size:0.8rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-light); }
+
+  #countdown { position:relative; z-index:2; margin-top:3rem; display:flex; gap:1.5rem; justify-content:center; flex-wrap:wrap; }
+  .cd-box { text-align:center; min-width:70px; }
+  .cd-num { font-family:'Cormorant Garamond',serif; font-size:2.8rem; font-weight:300; line-height:1; color:var(--text-dark); }
+  .cd-label { font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin-top:4px; font-weight:500; }
+  .cd-sep { font-family:'Cormorant Garamond',serif; font-size:2rem; color:var(--gold-light); align-self:flex-start; margin-top:8px; }
+
+  section { padding:6rem 2rem; max-width:900px; margin:0 auto; }
+  .section-header { text-align:center; margin-bottom:3.5rem; }
+  .section-tag { font-size:10px; letter-spacing:0.3em; text-transform:uppercase; color:var(--gold); font-weight:500; margin-bottom:0.75rem; }
+  .section-title { font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,5vw,3rem); font-weight:300; color:var(--text-dark); line-height:1.2; }
+  .section-title em { color:var(--gold); font-style:italic; }
+  .sep { width:100%; max-width:900px; margin:0 auto; height:1px; background:linear-gradient(to right,transparent,rgba(201,151,74,0.3),transparent); }
+
+  .timeline { position:relative; padding-left:2rem; }
+  .timeline::before { content:''; position:absolute; left:0; top:8px; bottom:8px; width:1px; background:linear-gradient(to bottom,transparent,var(--gold-light),transparent); }
+  .tl-item { display:grid; grid-template-columns:100px 1fr; gap:1.5rem; margin-bottom:2.5rem; position:relative; }
+  .tl-item::before { content:''; position:absolute; left:-2rem; top:12px; width:8px; height:8px; border-radius:50%; background:var(--gold); transform:translateX(-3.5px); }
+  .tl-time { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:300; color:var(--gold); padding-top:2px; }
+  .tl-content h3 { font-family:'Cormorant Garamond',serif; font-size:1.3rem; font-weight:400; color:var(--text-dark); margin-bottom:0.3rem; }
+  .tl-content p { font-size:0.85rem; color:var(--text-light); line-height:1.6; font-weight:300; }
+  .tl-icon { width:32px; height:32px; border-radius:50%; background:var(--gold-pale); border:1px solid rgba(201,151,74,0.3); display:flex; align-items:center; justify-content:center; font-size:14px; margin-bottom:0.5rem; }
+
+  .info-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1.5rem; }
+  .info-card { background:var(--white); border:1px solid rgba(201,151,74,0.2); border-radius:12px; padding:1.75rem; transition:border-color 0.2s,transform 0.2s; }
+  .info-card:hover { border-color:rgba(201,151,74,0.5); transform:translateY(-2px); }
+  .info-card-icon { width:40px; height:40px; background:var(--gold-pale); border-radius:50%; margin-bottom:1rem; display:flex; align-items:center; justify-content:center; font-size:18px; }
+  .info-card h3 { font-family:'Cormorant Garamond',serif; font-size:1.2rem; font-weight:400; color:var(--text-dark); margin-bottom:0.5rem; }
+  .info-card p { font-size:0.82rem; color:var(--text-light); line-height:1.7; font-weight:300; }
+  .info-card a { color:var(--gold); text-decoration:none; font-size:0.82rem; }
+  .tag { display:inline-block; margin-top:0.75rem; font-size:9px; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold); font-weight:500; background:var(--gold-pale); padding:4px 10px; border-radius:20px; }
+
+  .map-wrapper { border-radius:16px; overflow:hidden; border:1px solid rgba(201,151,74,0.25); height:380px; }
+  .map-wrapper iframe { width:100%; height:100%; border:none; }
+  .map-address { margin-top:1.25rem; text-align:center; font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:300; color:var(--text-mid); }
+
+  footer { background:var(--green-dark); color:rgba(255,255,255,0.7); text-align:center; padding:3rem 2rem; position:relative; overflow:hidden; }
+  footer::before { content:'M & M'; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-family:'Cormorant Garamond',serif; font-size:8rem; font-weight:300; color:rgba(255,255,255,0.03); white-space:nowrap; pointer-events:none; }
+  .footer-names { font-family:'Cormorant Garamond',serif; font-size:2rem; font-weight:300; font-style:italic; color:var(--gold-light); margin-bottom:0.5rem; }
+
+  @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+  .hero-content > * { opacity:0; animation:fadeUp 0.8s ease forwards; }
+  .hero-subtitle{animation-delay:0.1s} .hero-names{animation-delay:0.3s} .hero-divider{animation-delay:0.5s} .hero-date{animation-delay:0.6s} .hero-lieu{animation-delay:0.7s}
+  #countdown { animation:fadeUp 0.8s ease 0.9s forwards; opacity:0; }
+  .reveal { opacity:0; transform:translateY(20px); transition:opacity 0.6s ease,transform 0.6s ease; }
+  .reveal.visible { opacity:1; transform:none; }
+
+  @media(max-width:600px) {
+    .tl-item{grid-template-columns:80px 1fr;gap:1rem}
+    .corner-tr{display:none}
+    nav{gap:1.2rem} nav a{font-size:9px}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#hero">Accueil</a>
+  <a href="#planning">Programme</a>
+  <a href="#infos">Infos</a>
+  <a href="#acces">Accès</a>
+  <a href="#photos">Photos</a>
+  <a href="#contact">Contact</a>
+</nav>
+
+<section id="hero">
+  <div class="hero-bg"></div>
+  <svg class="corner corner-tl" viewBox="0 0 280 280" fill="none">
+    <g opacity="0.55">
+      <ellipse cx="40" cy="80" rx="18" ry="45" fill="#4A7A45" transform="rotate(-20 40 80)"/>
+      <ellipse cx="70" cy="50" rx="14" ry="38" fill="#2D4A2A" transform="rotate(-35 70 50)"/>
+      <ellipse cx="95" cy="30" rx="10" ry="28" fill="#7FB87A" transform="rotate(-50 95 30)"/>
+      <ellipse cx="25" cy="110" rx="22" ry="55" fill="#4A7A45" transform="rotate(-10 25 110)"/>
+      <circle cx="110" cy="55" r="18" fill="#E8744A" opacity="0.7"/>
+      <circle cx="85" cy="75" r="12" fill="#F5A050" opacity="0.6"/>
+      <ellipse cx="140" cy="20" rx="8" ry="22" fill="#2D4A2A" transform="rotate(-60 140 20)"/>
+      <circle cx="55" cy="30" r="8" fill="#C94A8A" opacity="0.5"/>
+    </g>
+  </svg>
+  <svg class="corner corner-tr" viewBox="0 0 220 220" fill="none">
+    <g opacity="0.45">
+      <ellipse cx="60" cy="70" rx="16" ry="40" fill="#4A7A45" transform="rotate(25 60 70)"/>
+      <ellipse cx="90" cy="40" rx="12" ry="32" fill="#2D4A2A" transform="rotate(10 90 40)"/>
+      <circle cx="70" cy="50" r="14" fill="#F5A050" opacity="0.65"/>
+      <ellipse cx="30" cy="90" rx="18" ry="48" fill="#7FB87A" transform="rotate(-5 30 90)"/>
+      <circle cx="45" cy="25" r="7" fill="#C94A8A" opacity="0.5"/>
+    </g>
+  </svg>
+  <svg class="corner corner-br" viewBox="0 0 280 280" fill="none">
+    <g opacity="0.45">
+      <ellipse cx="40" cy="80" rx="18" ry="45" fill="#4A7A45" transform="rotate(-20 40 80)"/>
+      <ellipse cx="80" cy="45" rx="14" ry="38" fill="#2D4A2A" transform="rotate(-35 80 45)"/>
+      <circle cx="100" cy="60" r="16" fill="#E8744A" opacity="0.6"/>
+      <ellipse cx="20" cy="120" rx="20" ry="52" fill="#4A7A45" transform="rotate(-8 20 120)"/>
+    </g>
+  </svg>
+
+  <div class="hero-content">
+    <p class="hero-subtitle">Vous êtes invités au mariage de</p>
+    <h1 class="hero-names">Marion<br><span class="amp">&amp;</span><br>Mickaël</h1>
+    <div class="hero-divider"><div class="hdl"></div><div class="hdd"></div><div class="hdl r"></div></div>
+    <p class="hero-date">Dimanche 23 Août 2026</p>
+    <p class="hero-lieu">Domaine Quinta De Vale Minhoto · Tondela, Portugal</p>
+  </div>
+
+  <div id="countdown">
+    <div class="cd-box"><div class="cd-num" id="cd-j">—</div><div class="cd-label">Jours</div></div>
+    <div class="cd-sep">·</div>
+    <div class="cd-box"><div class="cd-num" id="cd-h">—</div><div class="cd-label">Heures</div></div>
+    <div class="cd-sep">·</div>
+    <div class="cd-box"><div class="cd-num" id="cd-m">—</div><div class="cd-label">Minutes</div></div>
+    <div class="cd-sep">·</div>
+    <div class="cd-box"><div class="cd-num" id="cd-s">—</div><div class="cd-label">Secondes</div></div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<section id="planning">
+  <div class="section-header reveal">
+    <p class="section-tag">23 Août 2026</p>
+    <h2 class="section-title">Le programme de la <em>journée</em></h2>
+  </div>
+  <div class="timeline reveal" id="timeline-container">
+    <div class="tl-item">
+      <div class="tl-time">15h30</div>
+      <div class="tl-content"><div class="tl-icon">🌸</div><h3>Accueil des invités</h3><p>Des hôtes vous attendent à l'entrée du domaine pour vous orienter vers le lieu de la cérémonie. Prenez le temps de vous installer.</p></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">16h00</div>
+      <div class="tl-content"><div class="tl-icon">🌿</div><h3>Cérémonie laïque</h3><p>Retrouvez-nous au Domaine Quinta De Vale Minhoto pour célébrer notre union lors d'une cérémonie pleine d'émotion et de sincérité.</p></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">17h30</div>
+      <div class="tl-content"><div class="tl-icon">🥂</div><h3>Vin d'honneur &amp; photos</h3><p>Champagne, cocktails et petits fours dans les jardins du domaine. C'est aussi le moment des photos de groupe — soyez attentifs aux annonces !</p></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">19h00</div>
+      <div class="tl-content"><div class="tl-icon">🎀</div><h3>Cérémonie du ruban</h3><p>Un moment symbolique pour ouvrir la suite des festivités, juste avant de rejoindre la salle de réception.</p></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">19h45</div>
+      <div class="tl-content"><div class="tl-icon">🍽️</div><h3>Dîner de mariage</h3><p>Un dîner raffiné pour célébrer ensemble cette belle soirée, ponctué de surprises, discours et moments de partage.</p></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">Soir</div>
+      <div class="tl-content"><div class="tl-icon">🎶</div><h3>Soirée &amp; piste de danse</h3><p>La fête continue jusqu'au bout de la nuit ! Musique, danses et souvenirs inoubliables sous les étoiles portugaises.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<section id="infos">
+  <div class="section-header reveal">
+    <p class="section-tag">À savoir</p>
+    <h2 class="section-title">Informations <em>pratiques</em></h2>
+  </div>
+  <div class="info-grid reveal" id="infos-container">
+    <div class="info-card"><div class="info-card-icon">✈️</div><h3>Venir au Portugal</h3><p>L'aéroport le plus proche est Porto (OPO), à environ 1h30 du domaine. Vols directs depuis les principales villes françaises.</p><span class="tag">Porto · OPO</span></div>
+    <div class="info-card"><div class="info-card-icon">🚗</div><h3>Transport & navettes</h3><p>Location de voiture recommandée depuis Porto. Des informations sur d'éventuelles navettes seront communiquées prochainement.</p><span class="tag">À venir</span></div>
+    <div class="info-card"><div class="info-card-icon">🏨</div><h3>Hébergement</h3><p>Plusieurs options à proximité du domaine à Tondela. Des recommandations seront partagées avec vous prochainement.</p><span class="tag">Infos à venir</span></div>
+    <div class="info-card"><div class="info-card-icon">👶</div><h3>Mariage sans enfants</h3><p>Pour ce jour si particulier, le mariage se déroulera sans enfants. Merci de votre compréhension.</p><span class="tag">Important</span></div>
+    <div class="info-card"><div class="info-card-icon">🌡️</div><h3>Météo & tenue</h3><p>En août au Portugal, les températures avoisinent 28–32°C. Prévoyez une tenue légère et élégante.</p><span class="tag">Été portugais</span></div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<section id="acces" style="max-width:900px;margin:0 auto;padding:6rem 2rem;">
+  <div class="section-header reveal">
+    <p class="section-tag">Le lieu</p>
+    <h2 class="section-title">Domaine Quinta De <em>Vale Minhoto</em></h2>
+  </div>
+  <div class="map-wrapper reveal">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d50000!2d-8.08!3d40.52!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd23b9b73c23a151%3A0x5f5c08e2d62be3c0!2sTondela%2C%20Portugal!5e0!3m2!1sfr!2sfr!4v1700000000000!5m2!1sfr!2sfr" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+  <p class="map-address reveal">Quinta De Vale Minhoto · Tondela · Portugal</p>
+  <div class="info-grid reveal" style="margin-top:2rem;" id="acces-container">
+    <div class="info-card"><div class="info-card-icon">🗺️</div><h3>Depuis Porto</h3><p>Autoroute A25 direction Aveiro / Viseu. Sortie Tondela. Environ 1h30 depuis l'aéroport.</p></div>
+    <div class="info-card"><div class="info-card-icon">🚆</div><h3>En train</h3><p>Gare de Tondela accessible depuis Porto et Coimbra. Prévoir un taxi pour rejoindre le domaine.</p></div>
+    <div class="info-card"><div class="info-card-icon">📍</div><h3>GPS</h3><p>Recherchez "Quinta De Vale Minhoto, Tondela" dans Google Maps ou Waze.</p><a href="https://maps.google.com/?q=Quinta+De+Vale+Minhoto+Tondela+Portugal" target="_blank" class="tag" style="text-decoration:none;cursor:pointer;display:inline-block;">Ouvrir Maps →</a></div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- WEDSHOOTS -->
+<section id="photos" style="max-width:680px;margin:0 auto;padding:6rem 2rem;">
+  <div class="section-header reveal">
+    <p class="section-tag">Partagez vos souvenirs</p>
+    <h2 class="section-title">Photos de la <em>fête</em></h2>
+  </div>
+
+  <div class="reveal" style="background:var(--white);border:1px solid rgba(201,151,74,0.2);border-radius:16px;overflow:hidden;">
+
+    <!-- Header bande verte -->
+    <div style="background:var(--green-dark);padding:2rem 2.5rem;text-align:center;">
+      <p style="font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.5rem;">Partagez vos clichés</p>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;font-style:italic;color:var(--gold-light);margin-bottom:0;">WedShoots</h3>
+    </div>
+
+    <!-- Corps -->
+    <div style="padding:2rem 2.5rem;text-align:center;">
+      <p style="font-size:0.88rem;color:var(--text-light);line-height:1.8;max-width:440px;margin:0 auto 2rem;">
+        Nous avons créé un album photo partagé pour que chaque invité puisse y déposer ses photos. Téléchargez l'application et rejoignez l'album avec le code ci-dessous.
+      </p>
+
+      <!-- Code album -->
+      <div style="display:inline-flex;flex-direction:column;align-items:center;gap:6px;background:var(--gold-pale);border:1px solid rgba(201,151,74,0.35);border-radius:12px;padding:1.1rem 3rem;margin-bottom:2rem;">
+        <span style="font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);font-weight:500;">Code de l'album</span>
+        <span style="font-family:'Jost',sans-serif;font-size:1.6rem;font-weight:500;color:var(--text-dark);letter-spacing:0.12em;">FR9a0b11a3</span>
+      </div>
+
+      <!-- Étapes -->
+      <div style="display:flex;gap:0;justify-content:center;margin-bottom:2rem;flex-wrap:wrap;">
+        <div style="flex:1;min-width:140px;max-width:180px;padding:0 1rem;text-align:center;">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--gold-pale);border:1px solid rgba(201,151,74,0.3);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);margin:0 auto 0.75rem;">1</div>
+          <p style="font-size:0.78rem;color:var(--text-mid);line-height:1.5;font-weight:400;">Téléchargez<br>WedShoots</p>
+        </div>
+        <div style="flex:1;min-width:140px;max-width:180px;padding:0 1rem;text-align:center;border-left:1px solid rgba(201,151,74,0.15);border-right:1px solid rgba(201,151,74,0.15);">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--gold-pale);border:1px solid rgba(201,151,74,0.3);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);margin:0 auto 0.75rem;">2</div>
+          <p style="font-size:0.78rem;color:var(--text-mid);line-height:1.5;">Entrez le code<br>de l'album</p>
+        </div>
+        <div style="flex:1;min-width:140px;max-width:180px;padding:0 1rem;text-align:center;">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--gold-pale);border:1px solid rgba(201,151,74,0.3);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);margin:0 auto 0.75rem;">3</div>
+          <p style="font-size:0.78rem;color:var(--text-mid);line-height:1.5;">Publiez vos<br>plus belles photos !</p>
+        </div>
+      </div>
+
+      <!-- Boutons stores officiels -->
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;align-items:center;">
+        <a href="https://apps.apple.com/fr/app/wedshoots/id660256196" target="_blank"
+          style="display:inline-block;transition:opacity 0.2s;"
+          onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+          <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
+            alt="Télécharger sur l'App Store" style="height:44px;display:block;">
+        </a>
+        <a href="https://play.google.com/store/apps/details?id=net.bodas.android.wedshoots&pcampaignid=web_share" target="_blank"
+          style="display:inline-block;transition:opacity 0.2s;"
+          onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
+            alt="Disponible sur Google Play" style="height:44px;display:block;">
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- CONTACT -->
+<section id="contact" style="max-width:680px;margin:0 auto;padding:6rem 2rem;">
+  <div class="section-header reveal">
+    <p class="section-tag">Une question ?</p>
+    <h2 class="section-title">Nous <em>contacter</em></h2>
+  </div>
+
+  <div id="contact-success" style="display:none;text-align:center;padding:2.5rem;background:var(--white);border:1px solid rgba(201,151,74,0.3);border-radius:12px;">
+    <p style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;color:var(--gold);margin-bottom:0.5rem;">Merci ! 🤍</p>
+    <p style="font-size:0.85rem;color:var(--text-light);">Votre message a bien été envoyé. Nous vous répondrons dès que possible.</p>
+  </div>
+
+  <div class="reveal" id="contact-form-wrap">
+    <form name="contact-mariage" netlify netlify-honeypot="bot-field" id="contact-form" style="display:flex;flex-direction:column;gap:1.25rem;">
+      <input type="hidden" name="form-name" value="contact-mariage">
+      <input type="hidden" name="bot-field" style="display:none">
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+        <div>
+          <label style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);font-weight:500;display:block;margin-bottom:6px;">Prénom & Nom</label>
+          <input type="text" name="nom" required placeholder="Marie Dupont"
+            style="width:100%;padding:12px 16px;border:1px solid rgba(201,151,74,0.25);border-radius:8px;font-family:'Jost',sans-serif;font-size:0.88rem;color:var(--text-dark);background:var(--white);outline:none;transition:border-color 0.2s;"
+            onfocus="this.style.borderColor='#C9974A'" onblur="this.style.borderColor='rgba(201,151,74,0.25)'">
+        </div>
+        <div>
+          <label style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);font-weight:500;display:block;margin-bottom:6px;">Votre email</label>
+          <input type="email" name="email" required placeholder="vous@email.com"
+            style="width:100%;padding:12px 16px;border:1px solid rgba(201,151,74,0.25);border-radius:8px;font-family:'Jost',sans-serif;font-size:0.88rem;color:var(--text-dark);background:var(--white);outline:none;transition:border-color 0.2s;"
+            onfocus="this.style.borderColor='#C9974A'" onblur="this.style.borderColor='rgba(201,151,74,0.25)'">
+        </div>
+      </div>
+
+      <div>
+        <label style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);font-weight:500;display:block;margin-bottom:6px;">Sujet</label>
+        <input type="text" name="sujet" placeholder="Ex: Question sur l'hébergement"
+          style="width:100%;padding:12px 16px;border:1px solid rgba(201,151,74,0.25);border-radius:8px;font-family:'Jost',sans-serif;font-size:0.88rem;color:var(--text-dark);background:var(--white);outline:none;transition:border-color 0.2s;"
+          onfocus="this.style.borderColor='#C9974A'" onblur="this.style.borderColor='rgba(201,151,74,0.25)'">
+      </div>
+
+      <div>
+        <label style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);font-weight:500;display:block;margin-bottom:6px;">Message</label>
+        <textarea name="message" required rows="5" placeholder="Votre message…"
+          style="width:100%;padding:12px 16px;border:1px solid rgba(201,151,74,0.25);border-radius:8px;font-family:'Jost',sans-serif;font-size:0.88rem;color:var(--text-dark);background:var(--white);outline:none;resize:vertical;line-height:1.6;transition:border-color 0.2s;"
+          onfocus="this.style.borderColor='#C9974A'" onblur="this.style.borderColor='rgba(201,151,74,0.25)'"></textarea>
+      </div>
+
+      <button type="submit"
+        style="align-self:center;padding:14px 48px;background:var(--green-dark);color:white;border:none;border-radius:8px;font-family:'Jost',sans-serif;font-size:0.82rem;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;transition:opacity 0.2s;"
+        onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+        Envoyer le message
+      </button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <p class="footer-names">Marion & Mickaël</p>
+  <p>23 Août 2026 · Tondela, Portugal</p>
+  <br><p style="opacity:0.4;font-size:0.7rem;">Avec tout notre amour 🤍</p>
+</footer>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const app = initializeApp({
+    apiKey: "AIzaSyACCvr6MRh__vtOoSG5nJeRZCg2s3uCUzo",
+    authDomain: "weddingday-by-joba.firebaseapp.com",
+    projectId: "weddingday-by-joba",
+    storageBucket: "weddingday-by-joba.firebasestorage.app",
+    messagingSenderId: "444991450812",
+    appId: "1:444991450812:web:d75425338c590693bc6ab9"
+  });
+  const db = getFirestore(app);
+
+  async function loadContent() {
+    try {
+      const snap = await getDoc(doc(db, "wedding", "content"));
+      if (!snap.exists()) return;
+      const data = snap.data();
+
+      if (data.planning && data.planning.length > 0) {
+        document.getElementById("timeline-container").innerHTML = data.planning.map(item => `
+          <div class="tl-item">
+            <div class="tl-time">${item.heure}</div>
+            <div class="tl-content">
+              <div class="tl-icon">${item.icone || "🌿"}</div>
+              <h3>${item.titre}</h3>
+              <p>${item.description}</p>
+            </div>
+          </div>`).join("");
+      }
+
+      if (data.infos && data.infos.length > 0) {
+        document.getElementById("infos-container").innerHTML = data.infos.map(item => `
+          <div class="info-card">
+            <div class="info-card-icon">${item.icone || "ℹ️"}</div>
+            <h3>${item.titre}</h3>
+            <p>${item.texte}</p>
+            ${item.tag ? `<span class="tag">${item.tag}</span>` : ""}
+            ${item.lien ? `<a href="${item.lien}" target="_blank" class="tag" style="text-decoration:none;cursor:pointer;display:inline-block;margin-left:6px;">${item.lienLabel || "En savoir plus →"}</a>` : ""}
+          </div>`).join("");
+      }
+
+      if (data.acces && data.acces.length > 0) {
+        document.getElementById("acces-container").innerHTML = data.acces.map(item => `
+          <div class="info-card">
+            <div class="info-card-icon">${item.icone || "📍"}</div>
+            <h3>${item.titre}</h3>
+            <p>${item.texte}</p>
+            ${item.lien ? `<a href="${item.lien}" target="_blank" class="tag" style="text-decoration:none;cursor:pointer;display:inline-block;">${item.lienLabel || "Voir →"}</a>` : ""}
+          </div>`).join("");
+      }
+    } catch(e) {
+      console.log("Contenu par défaut affiché.");
+    }
+  }
+  loadContent();
+</script>
+
+<script>
+  function updateCD() {
+    const diff = new Date("2026-08-23T15:00:00") - new Date();
+    if (diff <= 0) { document.getElementById("countdown").innerHTML='<p style="font-family:\'Cormorant Garamond\',serif;font-size:1.5rem;color:var(--gold);font-style:italic;">C\'est aujourd\'hui ! 🎉</p>'; return; }
+    document.getElementById("cd-j").textContent = String(Math.floor(diff/86400000)).padStart(3,"0");
+    document.getElementById("cd-h").textContent = String(Math.floor(diff%86400000/3600000)).padStart(2,"0");
+    document.getElementById("cd-m").textContent = String(Math.floor(diff%3600000/60000)).padStart(2,"0");
+    document.getElementById("cd-s").textContent = String(Math.floor(diff%60000/1000)).padStart(2,"0");
+  }
+  updateCD(); setInterval(updateCD, 1000);
+
+  const obs = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){e.target.classList.add("visible");obs.unobserve(e.target);} }), {threshold:0.12});
+  document.querySelectorAll(".reveal").forEach(el => obs.observe(el));
+
+  // Netlify Forms submission
+  document.getElementById("contact-form").addEventListener("submit", async function(e) {
+    e.preventDefault();
+    const btn = this.querySelector("button[type=submit]");
+    btn.textContent = "Envoi en cours…"; btn.disabled = true;
+    const data = new URLSearchParams(new FormData(this));
+    try {
+      await fetch("/", { method:"POST", headers:{"Content-Type":"application/x-www-form-urlencoded"}, body: data.toString() });
+      document.getElementById("contact-form-wrap").style.display = "none";
+      document.getElementById("contact-success").style.display = "block";
+    } catch(err) {
+      btn.textContent = "Envoyer le message"; btn.disabled = false;
+      alert("Une erreur est survenue. Merci de réessayer.");
+    }
+  });
+</script>
+</body>
+</html>

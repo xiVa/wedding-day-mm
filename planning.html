@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Planning · Marion & Mickaël · 23 Août 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9974A;
+    --gold-light: #E8C87A;
+    --gold-pale: #F5E9C8;
+    --green-dark: #2D4A2A;
+    --green-mid: #4A7A45;
+    --green-light: #7FB87A;
+    --cream: #FDF8F0;
+    --cream-dark: #F0E8D8;
+    --coral: #E8744A;
+    --text-dark: #2A2018;
+    --text-mid: #5A4A35;
+    --text-light: #8A7A65;
+    --white: #FFFFFF;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--cream);
+    color: var(--text-dark);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(253, 248, 240, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(201, 151, 74, 0.2);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: center;
+    height: 60px; gap: 2.5rem;
+  }
+  nav a {
+    text-decoration: none;
+    font-family: 'Jost', sans-serif;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--text-mid);
+    transition: color 0.2s;
+  }
+  nav a:hover, nav a.active { color: var(--gold); }
+  nav a.home {
+    font-size: 14px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    letter-spacing: 0.05em;
+    text-transform: none;
+    color: var(--green-dark);
+  }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 60vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    padding: 120px 2rem 4rem;
+    text-align: center;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 20% 30%, rgba(127, 184, 122, 0.10) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 70%, rgba(201, 151, 74, 0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-corner {
+    position: absolute;
+    width: 180px; height: 180px;
+    pointer-events: none;
+    opacity: 0.55;
+  }
+  .hero-corner.tl { top: 60px; left: 0; }
+  .hero-corner.br { bottom: 0; right: 0; transform: scaleX(-1) scaleY(-1); }
+
+  .hero-tag {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    line-height: 1;
+    color: var(--text-dark);
+    margin-bottom: 1.5rem;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--green-dark);
+  }
+  .hero-divider {
+    display: flex; align-items: center; justify-content: center;
+    gap: 1rem; margin: 1rem 0 1.5rem;
+  }
+  .hero-divider-line {
+    width: 60px; height: 1px; background: var(--gold);
+  }
+  .hero-divider-diamond {
+    width: 8px; height: 8px;
+    background: var(--gold);
+    transform: rotate(45deg);
+  }
+  .hero-meta {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.3rem;
+    color: var(--text-mid);
+  }
+  .hero-meta strong { font-weight: 500; color: var(--green-dark); font-style: normal; }
+
+  /* ── SECTION ── */
+  section.day {
+    padding: 3rem 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .day-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+  }
+  .day-tag {
+    display: inline-block;
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: var(--gold-pale);
+    padding: 6px 18px;
+    border-radius: 40px;
+    margin-bottom: 1rem;
+  }
+  .day-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    color: var(--green-dark);
+    margin-bottom: 0.5rem;
+  }
+  .day-title em { font-style: italic; color: var(--gold); }
+  .day-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--text-light);
+  }
+
+  /* ── TIMELINE ── */
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 6px; top: 8px; bottom: 8px;
+    width: 1px;
+    background: linear-gradient(to bottom,
+      transparent 0%,
+      var(--gold) 5%,
+      var(--gold) 95%,
+      transparent 100%);
+  }
+
+  .tl-item {
+    position: relative;
+    margin-bottom: 1.25rem;
+    padding-left: 1.5rem;
+  }
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -2rem; top: 14px;
+    width: 13px; height: 13px;
+    background: var(--cream);
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    z-index: 2;
+  }
+  .tl-item.key::before {
+    background: var(--gold);
+    width: 16px; height: 16px;
+    left: calc(-2rem - 1px); top: 12px;
+  }
+
+  .tl-card {
+    background: var(--white);
+    border: 1px solid rgba(201, 151, 74, 0.15);
+    border-radius: 8px;
+    padding: 1rem 1.4rem;
+    transition: border-color 0.25s, transform 0.25s;
+  }
+  .tl-card:hover {
+    border-color: var(--gold);
+    transform: translateX(4px);
+  }
+  .tl-item.key .tl-card {
+    background: linear-gradient(to right, var(--gold-pale) 0%, var(--white) 100%);
+    border-color: var(--gold);
+  }
+
+  .tl-head {
+    display: flex; flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin-bottom: 0.4rem;
+  }
+  .tl-time {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 1.4rem;
+    color: var(--green-dark);
+    letter-spacing: 0.02em;
+    min-width: 60px;
+  }
+  .tl-item.key .tl-time { color: var(--gold); }
+  .tl-duration {
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    background: var(--cream-dark);
+    padding: 3px 9px;
+    border-radius: 20px;
+  }
+  .tl-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 1.25rem;
+    color: var(--text-dark);
+    flex: 1;
+  }
+  .tl-item.key .tl-title { font-style: italic; }
+  .tl-desc {
+    font-size: 0.92rem;
+    color: var(--text-mid);
+    line-height: 1.55;
+    margin-top: 0.25rem;
+  }
+  .tl-desc strong {
+    color: var(--green-dark);
+    font-weight: 500;
+  }
+  .tl-music {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 0.5rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--coral);
+  }
+  .tl-music::before { content: '♪'; font-style: normal; }
+
+  /* ── SEPARATOR ── */
+  .sep {
+    text-align: center;
+    padding: 1.5rem 0;
+  }
+  .sep-mark {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--gold);
+    font-size: 1.1rem;
+  }
+  .sep-mark::before, .sep-mark::after {
+    content: '';
+    width: 40px; height: 1px;
+    background: var(--gold);
+  }
+
+  /* ── CHECKLIST ── */
+  #checklist {
+    background: linear-gradient(180deg, var(--cream) 0%, var(--cream-dark) 100%);
+    padding: 4rem 2rem;
+    margin-top: 3rem;
+  }
+  #checklist .inner {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .checklist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .check-card {
+    background: var(--white);
+    border-radius: 10px;
+    padding: 1.5rem 1.6rem;
+    border-top: 3px solid var(--gold);
+  }
+  .check-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 1.3rem;
+    color: var(--green-dark);
+    margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .check-card ul {
+    list-style: none;
+  }
+  .check-card li {
+    position: relative;
+    padding: 0.4rem 0 0.4rem 1.6rem;
+    font-size: 0.9rem;
+    color: var(--text-mid);
+    border-bottom: 1px dashed rgba(201, 151, 74, 0.2);
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  .check-card li:last-child { border-bottom: none; }
+  .check-card li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0.65rem;
+    width: 14px; height: 14px;
+    border: 1.5px solid var(--gold);
+    border-radius: 3px;
+    background: var(--white);
+    transition: all 0.2s;
+  }
+  .check-card li.done {
+    color: var(--text-light);
+    text-decoration: line-through;
+    text-decoration-color: var(--gold-light);
+  }
+  .check-card li.done::before {
+    background: var(--gold);
+    border-color: var(--gold);
+  }
+  .check-card li.done::after {
+    content: '✓';
+    position: absolute;
+    left: 2px; top: 0.25rem;
+    color: var(--white);
+    font-size: 11px;
+    font-weight: bold;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--green-dark);
+    color: var(--cream);
+    text-align: center;
+    padding: 3rem 2rem;
+  }
+  footer h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  footer p {
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    opacity: 0.85;
+    margin-bottom: 1rem;
+  }
+  footer a {
+    color: var(--gold-light);
+    text-decoration: none;
+    font-size: 0.85rem;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+  }
+  footer a:hover { border-color: var(--gold-light); }
+
+  /* ── PRINT ── */
+  @media print {
+    nav, footer { display: none; }
+    body { background: white; }
+    .tl-card { break-inside: avoid; box-shadow: none; }
+    .check-card { break-inside: avoid; }
+    #hero { min-height: auto; padding: 1rem; }
+    section.day { padding: 1rem; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    nav { gap: 1rem; padding: 0 1rem; }
+    nav a { font-size: 10px; letter-spacing: 0.1em; }
+    nav a.home { font-size: 12px; }
+    section.day { padding: 2rem 1rem; }
+    .timeline { padding-left: 1.5rem; }
+    .tl-item { padding-left: 1rem; }
+    .tl-item::before { left: -1.5rem; }
+    .tl-card { padding: 0.9rem 1rem; }
+    .tl-head { gap: 0.5rem; }
+    .tl-time { font-size: 1.2rem; min-width: 52px; }
+    .hero-corner { width: 100px; height: 100px; }
+  }
+
+  /* ── ANIMATIONS ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="index.html" class="home">Marion &amp; Mickaël</a>
+  <a href="index.html#planning">Programme</a>
+  <a href="index.html#infos">Infos</a>
+  <a href="index.html#acces">Accès</a>
+  <a href="planning.html" class="active">Conducteur</a>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-bg"></div>
+
+  <!-- Tropical corner ornaments (botanical) -->
+  <svg class="hero-corner tl" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
+    <g>
+      <ellipse cx="40" cy="80" rx="14" ry="42" fill="#4A7A45" transform="rotate(-25 40 80)" opacity="0.7"/>
+      <ellipse cx="70" cy="50" rx="11" ry="34" fill="#2D4A2A" transform="rotate(-40 70 50)" opacity="0.65"/>
+      <ellipse cx="20" cy="120" rx="16" ry="48" fill="#4A7A45" transform="rotate(-10 20 120)" opacity="0.55"/>
+      <circle cx="95" cy="55" r="13" fill="#E8744A" opacity="0.55"/>
+      <circle cx="55" cy="30" r="7" fill="#F5D060" opacity="0.55"/>
+      <circle cx="105" cy="90" r="5" fill="#C9974A" opacity="0.7"/>
+    </g>
+  </svg>
+  <svg class="hero-corner br" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
+    <g>
+      <ellipse cx="40" cy="80" rx="14" ry="42" fill="#4A7A45" transform="rotate(-25 40 80)" opacity="0.7"/>
+      <ellipse cx="70" cy="50" rx="11" ry="34" fill="#2D4A2A" transform="rotate(-40 70 50)" opacity="0.65"/>
+      <ellipse cx="20" cy="120" rx="16" ry="48" fill="#4A7A45" transform="rotate(-10 20 120)" opacity="0.55"/>
+      <circle cx="95" cy="55" r="13" fill="#E8744A" opacity="0.55"/>
+      <circle cx="55" cy="30" r="7" fill="#F5D060" opacity="0.55"/>
+    </g>
+  </svg>
+
+  <div class="hero-tag">Fiche conducteur · Joba</div>
+  <h1 class="hero-title">Planning <em>minuté</em></h1>
+  <div class="hero-divider">
+    <div class="hero-divider-line"></div>
+    <div class="hero-divider-diamond"></div>
+    <div class="hero-divider-line"></div>
+  </div>
+  <p class="hero-meta">Dimanche <strong>23 août 2026</strong> · Quinta De Vale Minhoto</p>
+</section>
+
+<!-- ── 1. PRÉPARATION ── -->
+<section class="day reveal">
+  <div class="day-header">
+    <span class="day-tag">15h00 — 16h00</span>
+    <h2 class="day-title">Préparation &amp; <em>arrivée des invités</em></h2>
+    <p class="day-subtitle">Avant le grand moment</p>
+  </div>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-head">
+          <span class="tl-time">15h00</span>
+          <span class="tl-duration">30 min</span>
+          <span class="tl-title">Mise en place finale</span>
+        </div>
+        <p class="tl-desc">Joba check sono, micros HF, allée, placement des chaises. Brief des intervenants en coulisses.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-head">
+          <span class="tl-time">15h30</span>
+          <span class="tl-duration">15 min</span>
+          <span class="tl-title">Ouverture aux invités</span>
+        </div>
+        <p class="tl-desc"><strong>Hôtes·ses postés à l'entrée du domaine</strong> pour orienter les arrivants vers le lieu de la cérémonie. Musique d'ambiance douce.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-head">
+          <span class="tl-time">15h45</span>
+          <span class="tl-duration">10 min</span>
+          <span class="tl-title">Placement des invités</span>
+        </div>
+        <p class="tl-desc">Hôtesses orientent vers les chaises. Premier rang réservé aux familles et intervenants.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-head">
+          <span class="tl-time">15h55</span>
+          <span class="tl-duration">5 min</span>
+          <span class="tl-title">Dernier rappel</span>
+        </div>
+        <p class="tl-desc">Joba rassemble les intervenants, vérifie l'ordre de passage, signal aux musiciens.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sep"><span class="sep-mark">✦</span></div>
+
+<!-- ── 2. CÉRÉMONIE LAÏQUE ── -->
+<section class="day reveal">
+  <div class="day-header">
+    <span class="day-tag">16h00 — 17h00 · Cérémonie laïque</span>
+    <h2 class="day-title">Le <em>grand moment</em></h2>
+    <p class="day-subtitle">Une heure d'émotion et de sincérité</p>
+  </div>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-head">
+          <span class="tl-time">16h00</span>
+          <span class="tl-duration">3 min</span>
+          <span class="tl-title">Mot d'ouverture de Joba</span>
+        </div>
+        <p class="tl-desc">Bienvenue aux invités, présentation du déroulé, demande d'éteindre les téléphones.</p>
+      </div>
+    </div>
+
+    <div class="tl-item key">
+      <div class="tl-card">
+        <div class="tl-head">
+          <span class="tl-time">16h03</span>
+          <span class="tl-duration">7 min</span>
+          <span class="tl-title">Entrée du marié &amp; cortège</span>
+        </div>
+        <p class="tl-desc">Mickaël avec sa mère, suivi des témoins et demoiselles d'honneur — ils passent en premier sur la même musique.</p>
+        <p class="tl-music">« Como tu »</p>
+      </div>
+    </div>
+
+    <div class="tl-item key">
+      <div class="tl-card">
+        <div class="tl-head">
+          <span class="tl-time">16h10</span>
+          <span class="tl-duration">5 min</span>
+          <span class="tl-title">Entrée de la mariée</span>
+        </div>
+        <p class="tl-desc">Marion remonte l'allée accompagnée de son père. Moment fort de la cérémonie.</p>
+        <p class="tl-music">« Lua » — Ivandro</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-head">
+          <span class="tl-time">16h15</span>
+          <span class="tl-duration">5 min</span>
+          <span class="tl-title">Accueil par Joba</span>
+        </div>
+        <p class="tl-desc">Introduction officielle, ton de la cérémonie, présentation des mariés.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-head">
+          <span class="tl-time">16h20</span>
+          <span class="tl-duration">5 min</span>
+          <span class="tl-title">Histoire du couple</span>
+        </div>
+        <p class="tl-desc">« Comment ils se sont rencontrés » — par Joba ou un proche.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-head">
+          <span class="tl-time">16h25</span>
+          <span class="tl-duration">5 min</span>
+          <span class="tl-title">Intervention #1 — Famille Marion</span>
+        </div>
+        <p class="tl-desc">Premier proche de la famille de Marion · environ 4 min.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-head">
+          <span class="tl-time">16h30</span>
+          <span class="tl-duration">5 min</span>
+          <span class="tl-title">Intervention #2 — Famille Marion</span>
+        </div>
+        <p class="tl-desc">Second proche de la famille de Marion · environ 4 min.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-head">
+          <span class="tl-time">16h35</span>
+          <span class="tl-duration">5 min</span>
+          <span class="tl-title">Mot personnel — Toi</span>
+        </div>
+        <p class="tl-desc">Prise de parole pour partager un moment personnel avec les mariés et les invités.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-head">
+          <span class="tl-time">16h40</span>
+          <span class="tl-duration">5 min</span>
+          <span class="tl-title">Intervention #3 — Famille Mickaël</span>
+        </div>
+        <p class="tl-desc">Premier proche de la famille de Mickaël · environ 4 min.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-head">
+          <span class="tl-time">16h45</span>
+          <span class="tl-duration">5 min</span>
+          <span class="tl-title">Intervention #4 — Famille Mickaël</span>
+        </div>
+        <p class="tl-desc">Second proche de la famille de Mickaël · environ 4 min.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-head">
+          <span class="tl-time">16h50</span>
+          <span class="tl-duration">3 min</span>
+          <span class="tl-title">Mot de transition — Toi</span>
+        </div>
+        <p class="tl-desc">Tu prends la parole pour annoncer : passage aux vœux, échange des alliances, comment se passera la sortie et la transition vers le vin d'honneur.</p>
+      </div>
+    </div>
+
+    <div class="tl-item key">
+      <div class="tl-card">
+        <div class="tl-head">
+          <span class="tl-time">16h53</span>
+          <span class="tl-duration">5 min</span>
+          <span class="tl-title">Échange des vœux</span>
+        </div>
+        <p class="tl-desc">Marion puis Mickaël lisent leurs vœux <strong>écrits</strong>. Imprimés en double au cas où.</p>
+      </div>
+    </div>
+
+    <div class="tl-item key">
+      <div class="tl-card">
+        <div class="tl-head">
+          <span class="tl-time">16h58</span>
+          <span class="tl-duration">2 min</span>
+          <span class="tl-title">Échange des alliances</span>
+        </div>
+        <p class="tl-desc">Joba présente les alliances, échange, déclaration mutuelle.</p>
+      </div>
+    </div>
+
+    <div class="tl-item key">
+      <div class="tl-card">
+        <div class="tl-head">
+          <span class="tl-time">17h00</span>
+          <span class="tl-duration">Fin</span>
+          <span class="tl-title">« Vous pouvez vous embrasser »</span>
+        </div>
+        <p class="tl-desc">Annonce officielle, applaudissements, sortie des mariés sur musique. Haie d'honneur des invités.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sep"><span class="sep-mark">✦</span></div>
+
+<!-- ── 3. VIN D'HONNEUR ── -->
+<section class="day reveal">
+  <div class="day-header">
+    <span class="day-tag">17h00 — 19h00 · Vin d'honneur</span>
+    <h2 class="day-title">Vin d'honneur &amp; <em>photos de groupe</em></h2>
+    <p class="day-subtitle">Bulles, soleil et clichés</p>
+  </div>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-head">
+          <span class="tl-time">17h00</span>
+          <span class="tl-duration">30 min</span>
+          <span class="tl-title">Transition vers les jardins</span>
+        </div>
+        <p class="tl-desc">Déplacement des invités vers les jardins. Photos express des mariés.</p>
+      </div>
+    </div>
+
+    <div class="tl-item key">
+      <div class="tl-card">
+        <div class="tl-head">
+          <span class="tl-time">17h30</span>
+          <span class="tl-duration">5 min</span>
+          <span class="tl-title">Discours d'ouverture des mariés</span>
+        </div>
+        <p class="tl-desc">Marion &amp; Mickaël ouvrent le vin d'honneur par un mot aux invités. Champagne, cocktails et petits fours sont servis.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-head">
+          <span class="tl-time">17h35</span>
+          <span class="tl-duration">1h25</span>
+          <span class="tl-title">Photos de groupe + cocktail</span>
+        </div>
+        <p class="tl-desc"><strong>Joba appelle les groupes un par un au micro</strong> pendant que le reste des invités profite du vin d'honneur dans les jardins.</p>
+      </div>
+    </div>
+
+    <div class="tl-item key">
+      <div class="tl-card">
+        <div class="tl-head">
+          <span class="tl-time">19h00</span>
+          <span class="tl-duration">25 min</span>
+          <span class="tl-title">Cérémonie du ruban</span>
+        </div>
+        <p class="tl-desc">Annonce de Joba, coupe du ruban, transition vers la salle de repas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sep"><span class="sep-mark">✦</span></div>
+
+<!-- ── 4. ENTRÉE EN SALLE ── -->
+<section class="day reveal">
+  <div class="day-header">
+    <span class="day-tag">19h30 — Début du repas</span>
+    <h2 class="day-title">Entrée en salle &amp; <em>début du repas</em></h2>
+    <p class="day-subtitle">Le festin peut commencer</p>
+  </div>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-head">
+          <span class="tl-time">19h30</span>
+          <span class="tl-duration">15 min</span>
+          <span class="tl-title">Entrée des invités en salle</span>
+        </div>
+        <p class="tl-desc">Joba invite les invités à rejoindre leurs tables. Plan de table affiché bien visible.</p>
+      </div>
+    </div>
+
+    <div class="tl-item key">
+      <div class="tl-card">
+        <div class="tl-head">
+          <span class="tl-time">19h45</span>
+          <span class="tl-duration">5 min</span>
+          <span class="tl-title">Entrée des mariés</span>
+        </div>
+        <p class="tl-desc">Annonce de Joba, musique d'entrée, applaudissements. Marion &amp; Mickaël rejoignent leur table.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-head">
+          <span class="tl-time">19h50</span>
+          <span class="tl-duration">5 min</span>
+          <span class="tl-title">Discours de bienvenue</span>
+        </div>
+        <p class="tl-desc">Mot des mariés à leurs invités · 5 minutes maximum.</p>
+      </div>
+    </div>
+
+    <div class="tl-item key">
+      <div class="tl-card">
+        <div class="tl-head">
+          <span class="tl-time">19h55</span>
+          <span class="tl-duration">→</span>
+          <span class="tl-title">Début du repas</span>
+        </div>
+        <p class="tl-desc">Service du premier plat. La soirée peut commencer.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CHECKLIST ── -->
+<section id="checklist" class="reveal">
+  <div class="inner">
+    <div class="day-header">
+      <span class="day-tag">À vérifier</span>
+      <h2 class="day-title">Checklist <em>jour J</em></h2>
+      <p class="day-subtitle">Cliquez pour cocher au fur et à mesure</p>
+    </div>
+
+    <div class="checklist-grid">
+
+      <div class="check-card">
+        <h3>Logistique cérémonie</h3>
+        <ul>
+          <li>Hôtes·ses désigné·es à l'entrée du domaine</li>
+          <li>Sono testée + 2 micros HF minimum</li>
+          <li>Allée dégagée, chaises alignées et nombre suffisant</li>
+          <li>Plan B météo (août au Portugal)</li>
+          <li>Bouteilles d'eau pour les mariés et Joba</li>
+          <li>Place réservée au premier rang pour les intervenants</li>
+        </ul>
+      </div>
+
+      <div class="check-card">
+        <h3>Musique</h3>
+        <ul>
+          <li>« Como tu » testée — entrée Mickaël &amp; cortège</li>
+          <li>« Lua » d'Ivandro testée — entrée Marion</li>
+          <li>Morceau de sortie des mariés choisi</li>
+          <li>Playlist d'ambiance pendant l'accueil</li>
+          <li>Personne en charge du lancement des morceaux</li>
+        </ul>
+      </div>
+
+      <div class="check-card">
+        <h3>Intervenants (4 personnes)</h3>
+        <ul>
+          <li>Famille Marion : 2 noms confirmés</li>
+          <li>Famille Mickaël : 2 noms confirmés</li>
+          <li>Textes relus et validés</li>
+          <li>Ordre de passage transmis à Joba</li>
+          <li>Durée briefée à chacun (~4 min max)</li>
+        </ul>
+      </div>
+
+      <div class="check-card">
+        <h3>Vœux &amp; alliances</h3>
+        <ul>
+          <li>Vœux imprimés en double exemplaire</li>
+          <li>Personne désignée pour porter les alliances</li>
+          <li>Coussin / écrin préparé</li>
+        </ul>
+      </div>
+
+      <div class="check-card">
+        <h3>Photos de groupe</h3>
+        <ul>
+          <li>Lieu précis défini (jardin, fond végétal…)</li>
+          <li>Liste écrite des groupes (ordre + composition)</li>
+          <li>Photographe briefé sur la liste et le timing</li>
+          <li>Joba dispose de la liste près du micro</li>
+          <li>Référent·e pour récupérer les invités égarés</li>
+        </ul>
+      </div>
+
+      <div class="check-card">
+        <h3>Cérémonie du ruban</h3>
+        <ul>
+          <li>Ruban et ciseaux préparés</li>
+          <li>Lieu défini (entrée de la salle ?)</li>
+          <li>Annonce préparée par Joba</li>
+        </ul>
+      </div>
+
+      <div class="check-card">
+        <h3>Entrée en salle &amp; repas</h3>
+        <ul>
+          <li>Plan de table affiché bien visible</li>
+          <li>Morceau d'entrée des mariés choisi</li>
+          <li>Discours de bienvenue préparé (5 min max)</li>
+          <li>Signal au service pour démarrer après le discours</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <h3>Marion &amp; Mickaël</h3>
+  <p>23 AOÛT 2026 · TONDELA, PORTUGAL</p>
+  <a href="index.html">← Retour au site</a>
+</footer>
+
+<!-- Indicateur de synchro -->
+<div id="sync-indicator" style="position:fixed;bottom:20px;right:20px;background:rgba(45,74,42,0.92);color:#F5E9C8;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:8px 14px;border-radius:30px;z-index:200;display:flex;align-items:center;gap:8px;box-shadow:0 2px 12px rgba(0,0,0,0.15);transition:opacity 0.4s, transform 0.4s;opacity:0;transform:translateY(10px);pointer-events:none;">
+  <span id="sync-dot" style="width:8px;height:8px;border-radius:50%;background:#E8C87A;display:inline-block;"></span>
+  <span id="sync-text">Connexion…</span>
+</div>
+
+<script>
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+
+<!-- ── CHECKLIST avec synchro Firebase temps réel ── -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, doc, onSnapshot, setDoc }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyACCvr6MRh__vtOoSG5nJeRZCg2s3uCUzo",
+    authDomain: "weddingday-by-joba.firebaseapp.com",
+    projectId: "weddingday-by-joba",
+    storageBucket: "weddingday-by-joba.firebasestorage.app",
+    messagingSenderId: "444991450812",
+    appId: "1:444991450812:web:d75425338c590693bc6ab9"
+  };
+
+  const indicator = document.getElementById('sync-indicator');
+  const sDot = document.getElementById('sync-dot');
+  const sText = document.getElementById('sync-text');
+
+  function showIndicator(text, color, autoHide = false) {
+    sText.textContent = text;
+    sDot.style.background = color;
+    indicator.style.opacity = '1';
+    indicator.style.transform = 'translateY(0)';
+    if (autoHide) {
+      clearTimeout(showIndicator._t);
+      showIndicator._t = setTimeout(() => {
+        indicator.style.opacity = '0';
+        indicator.style.transform = 'translateY(10px)';
+      }, 1800);
+    }
+  }
+
+  // Slug stable basé sur le texte de chaque item (plus robuste qu'un index)
+  function slug(s) {
+    return s.toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '')
+      .slice(0, 60);
+  }
+
+  const items = document.querySelectorAll('.check-card li');
+  const itemMap = new Map(); // key -> li element
+  items.forEach(li => {
+    const key = slug(li.textContent.trim());
+    li.dataset.key = key;
+    itemMap.set(key, li);
+  });
+
+  let app, db, docRef;
+  let remoteState = {};        // dernier état reçu de Firestore
+  let isApplyingRemote = false; // évite les boucles
+  let firebaseReady = false;
+
+  // --- Fallback localStorage si Firebase ne répond pas ---
+  function loadLocal() {
+    try {
+      const raw = localStorage.getItem('planning-checklist');
+      return raw ? JSON.parse(raw) : {};
+    } catch { return {}; }
+  }
+  function saveLocal(state) {
+    try { localStorage.setItem('planning-checklist', JSON.stringify(state)); } catch {}
+  }
+
+  // Applique un état { key: true/false } à l'UI
+  function applyState(state) {
+    isApplyingRemote = true;
+    itemMap.forEach((li, key) => {
+      if (state[key]) li.classList.add('done');
+      else li.classList.remove('done');
+    });
+    isApplyingRemote = false;
+  }
+
+  // Charge d'abord l'état local pour affichage instantané
+  applyState(loadLocal());
+
+  try {
+    app = initializeApp(firebaseConfig);
+    db = getFirestore(app);
+    docRef = doc(db, 'wedding', 'checklist');
+
+    // Écoute temps réel
+    onSnapshot(docRef, (snap) => {
+      firebaseReady = true;
+      remoteState = snap.exists() ? (snap.data().items || {}) : {};
+      applyState(remoteState);
+      saveLocal(remoteState); // garde une copie locale au cas où
+      showIndicator('Synchronisé', '#7FB87A', true);
+    }, (err) => {
+      console.warn('Firestore listen error:', err);
+      showIndicator('Hors ligne — local', '#E8744A', false);
+    });
+  } catch (err) {
+    console.warn('Firebase init failed:', err);
+    showIndicator('Hors ligne — local', '#E8744A', false);
+  }
+
+  // Click handler : toggle local immédiat + push Firestore
+  items.forEach(li => {
+    li.addEventListener('click', async () => {
+      if (isApplyingRemote) return;
+      li.classList.toggle('done');
+      const key = li.dataset.key;
+      const checked = li.classList.contains('done');
+
+      // Mise à jour locale tout de suite
+      remoteState = { ...remoteState, [key]: checked };
+      saveLocal(remoteState);
+
+      // Push vers Firestore (merge pour ne pas écraser les autres clés)
+      if (firebaseReady && docRef) {
+        try {
+          showIndicator('Sauvegarde…', '#E8C87A', false);
+          await setDoc(docRef, { items: { [key]: checked } }, { merge: true });
+          // L'indicateur "Synchronisé" sera redonné par onSnapshot
+        } catch (err) {
+          console.warn('Save failed:', err);
+          showIndicator('Erreur — réessaie', '#E8744A', true);
+        }
+      } else {
+        showIndicator('Hors ligne — local', '#E8744A', true);
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
