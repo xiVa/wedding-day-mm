@@ -395,6 +395,169 @@
   }
   footer a:hover { border-color: var(--gold-light); }
 
+  /* ── BOUTON AJOUT + MODAL ── */
+  .add-btn-wrap {
+    text-align: center;
+    margin-top: 2rem;
+  }
+  .add-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--green-dark);
+    color: var(--cream);
+    border: none;
+    border-radius: 40px;
+    padding: 12px 26px;
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
+    box-shadow: 0 2px 12px rgba(45, 74, 42, 0.18);
+  }
+  .add-btn:hover {
+    background: var(--gold);
+    color: var(--cream);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(201, 151, 74, 0.3);
+  }
+  .add-btn .plus { font-size: 18px; line-height: 1; }
+
+  .modal-bg {
+    position: fixed;
+    inset: 0;
+    background: rgba(45, 74, 42, 0.55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 300;
+    padding: 1.5rem;
+  }
+  .modal-bg.open { display: flex; }
+  .modal {
+    background: var(--cream);
+    border-radius: 14px;
+    width: 100%;
+    max-width: 460px;
+    padding: 2rem 1.8rem 1.6rem;
+    border-top: 4px solid var(--gold);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    animation: modalIn 0.3s ease;
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: translateY(20px) scale(0.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .modal h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 1.7rem;
+    color: var(--green-dark);
+    margin-bottom: 0.25rem;
+  }
+  .modal h3 em { font-style: italic; color: var(--gold); }
+  .modal-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
+  }
+  .modal label {
+    display: block;
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 1rem 0 0.4rem;
+    font-weight: 500;
+  }
+  .modal input, .modal select {
+    width: 100%;
+    padding: 11px 14px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    background: var(--white);
+    border: 1px solid rgba(201, 151, 74, 0.3);
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .modal input:focus, .modal select:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(201, 151, 74, 0.15);
+  }
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 1.5rem;
+    justify-content: flex-end;
+  }
+  .modal-btn {
+    padding: 10px 22px;
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .modal-btn.cancel {
+    background: transparent;
+    color: var(--text-light);
+  }
+  .modal-btn.cancel:hover { color: var(--text-dark); }
+  .modal-btn.confirm {
+    background: var(--gold);
+    color: var(--white);
+  }
+  .modal-btn.confirm:hover { background: var(--green-dark); }
+  .modal-btn.confirm:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* Items custom : bouton supprimer */
+  .check-card li.custom { padding-right: 1.8rem; }
+  .check-card li .del {
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    color: var(--text-light);
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: background 0.2s, color 0.2s;
+  }
+  .check-card li.custom .del { display: flex; }
+  .check-card li .del:hover {
+    background: rgba(232, 116, 74, 0.15);
+    color: #c54a20;
+  }
+
+  /* Carte créée par l'utilisateur : petit liseré différent */
+  .check-card.user-card { border-top-color: var(--green-mid); }
+
   /* ── PRINT ── */
   @media print {
     nav, footer { display: none; }
@@ -822,84 +985,42 @@
       <p class="day-subtitle">Cliquez pour cocher au fur et à mesure</p>
     </div>
 
-    <div class="checklist-grid">
+    <div class="checklist-grid" id="checklist-grid">
+      <!-- Rendu dynamiquement par JS -->
+    </div>
 
-      <div class="check-card">
-        <h3>Logistique cérémonie</h3>
-        <ul>
-          <li>Hôtes·ses désigné·es à l'entrée du domaine</li>
-          <li>Sono testée + 2 micros HF minimum</li>
-          <li>Allée dégagée, chaises alignées et nombre suffisant</li>
-          <li>Plan B météo (août au Portugal)</li>
-          <li>Bouteilles d'eau pour les mariés et Joba</li>
-          <li>Place réservée au premier rang pour les intervenants</li>
-        </ul>
-      </div>
-
-      <div class="check-card">
-        <h3>Musique</h3>
-        <ul>
-          <li>« Como tu » testée — entrée Mickaël &amp; cortège</li>
-          <li>« Lua » d'Ivandro testée — entrée Marion</li>
-          <li>Morceau de sortie des mariés choisi</li>
-          <li>Playlist d'ambiance pendant l'accueil</li>
-          <li>Personne en charge du lancement des morceaux</li>
-        </ul>
-      </div>
-
-      <div class="check-card">
-        <h3>Intervenants (4 personnes)</h3>
-        <ul>
-          <li>Famille Marion : 2 noms confirmés</li>
-          <li>Famille Mickaël : 2 noms confirmés</li>
-          <li>Textes relus et validés</li>
-          <li>Ordre de passage transmis à Joba</li>
-          <li>Durée briefée à chacun (~4 min max)</li>
-        </ul>
-      </div>
-
-      <div class="check-card">
-        <h3>Vœux &amp; alliances</h3>
-        <ul>
-          <li>Vœux imprimés en double exemplaire</li>
-          <li>Personne désignée pour porter les alliances</li>
-          <li>Coussin / écrin préparé</li>
-        </ul>
-      </div>
-
-      <div class="check-card">
-        <h3>Photos de groupe</h3>
-        <ul>
-          <li>Lieu précis défini (jardin, fond végétal…)</li>
-          <li>Liste écrite des groupes (ordre + composition)</li>
-          <li>Photographe briefé sur la liste et le timing</li>
-          <li>Joba dispose de la liste près du micro</li>
-          <li>Référent·e pour récupérer les invités égarés</li>
-        </ul>
-      </div>
-
-      <div class="check-card">
-        <h3>Cérémonie du ruban</h3>
-        <ul>
-          <li>Ruban et ciseaux préparés</li>
-          <li>Lieu défini (entrée de la salle ?)</li>
-          <li>Annonce préparée par Joba</li>
-        </ul>
-      </div>
-
-      <div class="check-card">
-        <h3>Entrée en salle &amp; repas</h3>
-        <ul>
-          <li>Plan de table affiché bien visible</li>
-          <li>Morceau d'entrée des mariés choisi</li>
-          <li>Discours de bienvenue préparé (5 min max)</li>
-          <li>Signal au service pour démarrer après le discours</li>
-        </ul>
-      </div>
-
+    <div class="add-btn-wrap">
+      <button class="add-btn" id="add-item-btn">
+        <span class="plus">+</span>
+        <span>Ajouter une tâche</span>
+      </button>
     </div>
   </div>
 </section>
+
+<!-- Modal d'ajout -->
+<div class="modal-bg" id="add-modal" role="dialog" aria-modal="true" aria-labelledby="add-modal-title">
+  <div class="modal">
+    <h3 id="add-modal-title">Nouvelle <em>tâche</em></h3>
+    <p class="modal-sub">Ajoute un point à vérifier avant le jour J</p>
+
+    <label for="task-text">Tâche</label>
+    <input id="task-text" type="text" placeholder="Ex : confirmer le fleuriste" maxlength="120" />
+
+    <label for="task-cat">Catégorie</label>
+    <select id="task-cat"></select>
+
+    <div id="new-cat-wrap" style="display:none;">
+      <label for="new-cat-name">Nom de la nouvelle catégorie</label>
+      <input id="new-cat-name" type="text" placeholder="Ex : Décoration" maxlength="40" />
+    </div>
+
+    <div class="modal-actions">
+      <button class="modal-btn cancel" id="modal-cancel">Annuler</button>
+      <button class="modal-btn confirm" id="modal-confirm">Ajouter</button>
+    </div>
+  </div>
+</div>
 
 <!-- ── FOOTER ── -->
 <footer>
@@ -927,7 +1048,7 @@
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 </script>
 
-<!-- ── CHECKLIST avec synchro Firebase temps réel ── -->
+<!-- ── CHECKLIST avec synchro Firebase temps réel + ajouts dynamiques ── -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getFirestore, doc, onSnapshot, setDoc }
@@ -942,6 +1063,88 @@
     appId: "1:444991450812:web:d75425338c590693bc6ab9"
   };
 
+  // ─────────────────────────────────────────────
+  //  Catégories et items prédéfinis
+  // ─────────────────────────────────────────────
+  const DEFAULT_CATEGORIES = [
+    {
+      id: 'logistique',
+      title: 'Logistique cérémonie',
+      items: [
+        "Hôtes·ses désigné·es à l'entrée du domaine",
+        "Sono testée + 2 micros HF minimum",
+        "Allée dégagée, chaises alignées et nombre suffisant",
+        "Plan B météo (août au Portugal)",
+        "Bouteilles d'eau pour les mariés et Joba",
+        "Place réservée au premier rang pour les intervenants"
+      ]
+    },
+    {
+      id: 'musique',
+      title: 'Musique',
+      items: [
+        "« Como tu » testée — entrée Mickaël & cortège",
+        "« Lua » d'Ivandro testée — entrée Marion",
+        "Morceau de sortie des mariés choisi",
+        "Playlist d'ambiance pendant l'accueil",
+        "Personne en charge du lancement des morceaux"
+      ]
+    },
+    {
+      id: 'intervenants',
+      title: 'Intervenants (4 personnes)',
+      items: [
+        "Famille Marion : 2 noms confirmés",
+        "Famille Mickaël : 2 noms confirmés",
+        "Textes relus et validés",
+        "Ordre de passage transmis à Joba",
+        "Durée briefée à chacun (~4 min max)"
+      ]
+    },
+    {
+      id: 'voeux',
+      title: 'Vœux & alliances',
+      items: [
+        "Vœux imprimés en double exemplaire",
+        "Personne désignée pour porter les alliances",
+        "Coussin / écrin préparé"
+      ]
+    },
+    {
+      id: 'photos',
+      title: 'Photos de groupe',
+      items: [
+        "Lieu précis défini (jardin, fond végétal…)",
+        "Liste écrite des groupes (ordre + composition)",
+        "Photographe briefé sur la liste et le timing",
+        "Joba dispose de la liste près du micro",
+        "Référent·e pour récupérer les invités égarés"
+      ]
+    },
+    {
+      id: 'ruban',
+      title: 'Cérémonie du ruban',
+      items: [
+        "Ruban et ciseaux préparés",
+        "Lieu défini (entrée de la salle ?)",
+        "Annonce préparée par Joba"
+      ]
+    },
+    {
+      id: 'repas',
+      title: 'Entrée en salle & repas',
+      items: [
+        "Plan de table affiché bien visible",
+        "Morceau d'entrée des mariés choisi",
+        "Discours de bienvenue préparé (5 min max)",
+        "Signal au service pour démarrer après le discours"
+      ]
+    }
+  ];
+
+  // ─────────────────────────────────────────────
+  //  Indicateur de synchro
+  // ─────────────────────────────────────────────
   const indicator = document.getElementById('sync-indicator');
   const sDot = document.getElementById('sync-dot');
   const sText = document.getElementById('sync-text');
@@ -960,7 +1163,9 @@
     }
   }
 
-  // Slug stable basé sur le texte de chaque item (plus robuste qu'un index)
+  // ─────────────────────────────────────────────
+  //  Helpers
+  // ─────────────────────────────────────────────
   function slug(s) {
     return s.toLowerCase()
       .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
@@ -968,55 +1173,270 @@
       .replace(/^-|-$/g, '')
       .slice(0, 60);
   }
+  function escapeHtml(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
 
-  const items = document.querySelectorAll('.check-card li');
-  const itemMap = new Map(); // key -> li element
-  items.forEach(li => {
-    const key = slug(li.textContent.trim());
-    li.dataset.key = key;
-    itemMap.set(key, li);
-  });
-
-  let app, db, docRef;
-  let remoteState = {};        // dernier état reçu de Firestore
-  let isApplyingRemote = false; // évite les boucles
+  // ─────────────────────────────────────────────
+  //  État global synchronisé via Firestore
+  //  Structure :
+  //    state.checked  : { itemKey: true/false }   — coches
+  //    state.custom   : { itemKey: { text, categoryId, ts } } — items ajoutés
+  //    state.userCats : { catId:  { title, ts } } — catégories ajoutées
+  // ─────────────────────────────────────────────
+  let state = { checked: {}, custom: {}, userCats: {} };
   let firebaseReady = false;
+  let docRef = null;
 
-  // --- Fallback localStorage si Firebase ne répond pas ---
+  // ─────────────────────────────────────────────
+  //  Fallback localStorage
+  // ─────────────────────────────────────────────
   function loadLocal() {
     try {
-      const raw = localStorage.getItem('planning-checklist');
-      return raw ? JSON.parse(raw) : {};
-    } catch { return {}; }
+      const raw = localStorage.getItem('planning-state');
+      if (!raw) return null;
+      const s = JSON.parse(raw);
+      return {
+        checked:  s.checked  || {},
+        custom:   s.custom   || {},
+        userCats: s.userCats || {}
+      };
+    } catch { return null; }
   }
-  function saveLocal(state) {
-    try { localStorage.setItem('planning-checklist', JSON.stringify(state)); } catch {}
+  function saveLocal() {
+    try { localStorage.setItem('planning-state', JSON.stringify(state)); } catch {}
   }
 
-  // Applique un état { key: true/false } à l'UI
-  function applyState(state) {
-    isApplyingRemote = true;
-    itemMap.forEach((li, key) => {
-      if (state[key]) li.classList.add('done');
-      else li.classList.remove('done');
+  // ─────────────────────────────────────────────
+  //  Rendu de la checklist
+  // ─────────────────────────────────────────────
+  const grid = document.getElementById('checklist-grid');
+
+  function getAllCategories() {
+    // Catégories par défaut + catégories custom (triées par date d'ajout)
+    const customCats = Object.entries(state.userCats)
+      .map(([id, c]) => ({ id, title: c.title, ts: c.ts || 0, isUser: true }))
+      .sort((a, b) => a.ts - b.ts);
+    return [
+      ...DEFAULT_CATEGORIES.map(c => ({ ...c, isUser: false })),
+      ...customCats
+    ];
+  }
+
+  function renderChecklist() {
+    const cats = getAllCategories();
+
+    // Grouper les items custom par catégorie
+    const customByCat = {};
+    Object.entries(state.custom).forEach(([key, item]) => {
+      const cId = item.categoryId;
+      if (!customByCat[cId]) customByCat[cId] = [];
+      customByCat[cId].push({ key, ...item });
     });
-    isApplyingRemote = false;
+    Object.values(customByCat).forEach(arr =>
+      arr.sort((a, b) => (a.ts || 0) - (b.ts || 0))
+    );
+
+    grid.innerHTML = cats.map(cat => {
+      const defaultItems = cat.items || [];
+      const customItems = customByCat[cat.id] || [];
+      const allItems = [
+        ...defaultItems.map(text => ({ text, key: slug(text), custom: false })),
+        ...customItems.map(it => ({ text: it.text, key: it.key, custom: true }))
+      ];
+
+      const liHtml = allItems.map(it => {
+        const checked = state.checked[it.key];
+        return `
+          <li data-key="${escapeHtml(it.key)}"
+              class="${checked ? 'done' : ''} ${it.custom ? 'custom' : ''}">
+            ${escapeHtml(it.text)}
+            ${it.custom ? `<button class="del" data-key="${escapeHtml(it.key)}" aria-label="Supprimer">×</button>` : ''}
+          </li>`;
+      }).join('');
+
+      return `
+        <div class="check-card ${cat.isUser ? 'user-card' : ''}">
+          <h3>${escapeHtml(cat.title)}</h3>
+          <ul>${liHtml}</ul>
+        </div>`;
+    }).join('');
+
+    // Repopule le <select> de catégories du modal
+    populateCategorySelect();
   }
 
-  // Charge d'abord l'état local pour affichage instantané
-  applyState(loadLocal());
+  function populateCategorySelect() {
+    const sel = document.getElementById('task-cat');
+    const cats = getAllCategories();
+    sel.innerHTML = cats.map(c =>
+      `<option value="${c.id}">${escapeHtml(c.title)}</option>`
+    ).join('') + `<option value="__new__">+ Nouvelle catégorie…</option>`;
+  }
+
+  // ─────────────────────────────────────────────
+  //  Persistance Firestore
+  // ─────────────────────────────────────────────
+  async function persist(partial) {
+    saveLocal();
+    if (!firebaseReady || !docRef) {
+      showIndicator('Hors ligne — local', '#E8744A', true);
+      return;
+    }
+    try {
+      showIndicator('Sauvegarde…', '#E8C87A', false);
+      await setDoc(docRef, partial, { merge: true });
+      // onSnapshot remettra "Synchronisé"
+    } catch (err) {
+      console.warn('Save failed:', err);
+      showIndicator('Erreur — réessaie', '#E8744A', true);
+    }
+  }
+
+  // ─────────────────────────────────────────────
+  //  Événements (délégation sur la grille)
+  // ─────────────────────────────────────────────
+  grid.addEventListener('click', async (e) => {
+    // Suppression d'un item custom
+    const delBtn = e.target.closest('.del');
+    if (delBtn) {
+      e.stopPropagation();
+      const key = delBtn.dataset.key;
+      if (!confirm('Supprimer cette tâche ?')) return;
+      delete state.custom[key];
+      delete state.checked[key];
+      renderChecklist();
+      // Note: Firestore n'a pas de "delete field" simple en merge ; on remplace les sous-objets entiers
+      await persist({ custom: state.custom, checked: state.checked });
+      return;
+    }
+
+    // Toggle d'un li
+    const li = e.target.closest('li');
+    if (!li || !grid.contains(li)) return;
+    const key = li.dataset.key;
+    if (!key) return;
+    const newChecked = !li.classList.contains('done');
+    li.classList.toggle('done', newChecked);
+    state.checked = { ...state.checked, [key]: newChecked };
+    await persist({ checked: { [key]: newChecked } });
+  });
+
+  // ─────────────────────────────────────────────
+  //  Modal d'ajout
+  // ─────────────────────────────────────────────
+  const modal = document.getElementById('add-modal');
+  const taskInput = document.getElementById('task-text');
+  const catSelect = document.getElementById('task-cat');
+  const newCatWrap = document.getElementById('new-cat-wrap');
+  const newCatName = document.getElementById('new-cat-name');
+  const btnAdd = document.getElementById('add-item-btn');
+  const btnCancel = document.getElementById('modal-cancel');
+  const btnConfirm = document.getElementById('modal-confirm');
+
+  function openModal() {
+    taskInput.value = '';
+    newCatName.value = '';
+    populateCategorySelect();
+    catSelect.value = catSelect.options[0]?.value || '';
+    newCatWrap.style.display = 'none';
+    modal.classList.add('open');
+    setTimeout(() => taskInput.focus(), 100);
+  }
+  function closeModal() {
+    modal.classList.remove('open');
+  }
+  btnAdd.addEventListener('click', openModal);
+  btnCancel.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+  });
+
+  catSelect.addEventListener('change', () => {
+    if (catSelect.value === '__new__') {
+      newCatWrap.style.display = 'block';
+      setTimeout(() => newCatName.focus(), 50);
+    } else {
+      newCatWrap.style.display = 'none';
+    }
+  });
+
+  // Submit via Enter dans les inputs
+  [taskInput, newCatName].forEach(el => {
+    el.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); btnConfirm.click(); }
+    });
+  });
+
+  btnConfirm.addEventListener('click', async () => {
+    const text = taskInput.value.trim();
+    if (!text) { taskInput.focus(); return; }
+
+    let categoryId = catSelect.value;
+    let newCatPayload = null;
+
+    if (categoryId === '__new__') {
+      const newName = newCatName.value.trim();
+      if (!newName) { newCatName.focus(); return; }
+      // Génère un id unique basé sur le slug
+      let baseId = 'cat-' + slug(newName);
+      let id = baseId;
+      let i = 2;
+      const allIds = new Set([
+        ...DEFAULT_CATEGORIES.map(c => c.id),
+        ...Object.keys(state.userCats)
+      ]);
+      while (allIds.has(id)) { id = baseId + '-' + i; i++; }
+      categoryId = id;
+      const ts = Date.now();
+      state.userCats = { ...state.userCats, [id]: { title: newName, ts } };
+      newCatPayload = { userCats: { [id]: { title: newName, ts } } };
+    }
+
+    // Génère une clé unique pour la tâche
+    let baseKey = slug(text);
+    let key = baseKey;
+    let n = 2;
+    while (state.custom[key] || state.checked[key] !== undefined) {
+      key = baseKey + '-' + n; n++;
+    }
+    const ts = Date.now();
+    state.custom = { ...state.custom, [key]: { text, categoryId, ts } };
+
+    btnConfirm.disabled = true;
+    closeModal();
+    renderChecklist();
+
+    const payload = { custom: { [key]: { text, categoryId, ts } } };
+    if (newCatPayload) Object.assign(payload, newCatPayload);
+    await persist(payload);
+    btnConfirm.disabled = false;
+  });
+
+  // ─────────────────────────────────────────────
+  //  Init : load local d'abord, puis Firestore
+  // ─────────────────────────────────────────────
+  const local = loadLocal();
+  if (local) state = local;
+  renderChecklist();
 
   try {
-    app = initializeApp(firebaseConfig);
-    db = getFirestore(app);
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
     docRef = doc(db, 'wedding', 'checklist');
 
-    // Écoute temps réel
     onSnapshot(docRef, (snap) => {
       firebaseReady = true;
-      remoteState = snap.exists() ? (snap.data().items || {}) : {};
-      applyState(remoteState);
-      saveLocal(remoteState); // garde une copie locale au cas où
+      const data = snap.exists() ? snap.data() : {};
+      state = {
+        checked:  data.checked  || {},
+        custom:   data.custom   || {},
+        userCats: data.userCats || {}
+      };
+      saveLocal();
+      renderChecklist();
       showIndicator('Synchronisé', '#7FB87A', true);
     }, (err) => {
       console.warn('Firestore listen error:', err);
@@ -1026,34 +1446,6 @@
     console.warn('Firebase init failed:', err);
     showIndicator('Hors ligne — local', '#E8744A', false);
   }
-
-  // Click handler : toggle local immédiat + push Firestore
-  items.forEach(li => {
-    li.addEventListener('click', async () => {
-      if (isApplyingRemote) return;
-      li.classList.toggle('done');
-      const key = li.dataset.key;
-      const checked = li.classList.contains('done');
-
-      // Mise à jour locale tout de suite
-      remoteState = { ...remoteState, [key]: checked };
-      saveLocal(remoteState);
-
-      // Push vers Firestore (merge pour ne pas écraser les autres clés)
-      if (firebaseReady && docRef) {
-        try {
-          showIndicator('Sauvegarde…', '#E8C87A', false);
-          await setDoc(docRef, { items: { [key]: checked } }, { merge: true });
-          // L'indicateur "Synchronisé" sera redonné par onSnapshot
-        } catch (err) {
-          console.warn('Save failed:', err);
-          showIndicator('Erreur — réessaie', '#E8744A', true);
-        }
-      } else {
-        showIndicator('Hors ligne — local', '#E8744A', true);
-      }
-    });
-  });
 </script>
 
 </body>
