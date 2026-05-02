@@ -1304,11 +1304,27 @@
       e.stopPropagation();
       const key = delBtn.dataset.key;
       if (!confirm('Supprimer cette tâche ?')) return;
+
+      const removedCategoryId = state.custom[key]?.categoryId;
       delete state.custom[key];
       delete state.checked[key];
+
+      // Si c'était une catégorie créée par l'utilisateur et qu'elle n'a plus de tâches,
+      // on la supprime aussi
+      const isUserCat = state.userCats[removedCategoryId];
+      const hasRemaining = Object.values(state.custom)
+        .some(t => t.categoryId === removedCategoryId);
+      if (isUserCat && !hasRemaining) {
+        delete state.userCats[removedCategoryId];
+      }
+
       renderChecklist();
-      // Note: Firestore n'a pas de "delete field" simple en merge ; on remplace les sous-objets entiers
-      await persist({ custom: state.custom, checked: state.checked });
+      // Firestore : on remplace les sous-objets entiers (pas de "delete field" simple en merge)
+      await persist({
+        custom: state.custom,
+        checked: state.checked,
+        userCats: state.userCats
+      });
       return;
     }
 
