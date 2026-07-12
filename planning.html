@@ -295,6 +295,128 @@
     background: var(--gold);
   }
 
+  /* ── ENCART MUSIQUES CLÉ USB ── */
+  .music-usb {
+    background: linear-gradient(135deg, rgba(45, 74, 42, 0.04) 0%, rgba(201, 151, 74, 0.04) 100%);
+    border: 1px solid rgba(201, 151, 74, 0.25);
+    border-radius: 14px;
+    padding: 1.8rem 1.6rem;
+    margin-bottom: 2.5rem;
+    position: relative;
+  }
+  .music-usb-head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.8rem;
+    margin-bottom: 0.3rem;
+    flex-wrap: wrap;
+  }
+  .music-usb-icon {
+    font-size: 1.4rem;
+  }
+  .music-usb h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 1.6rem;
+    color: var(--green-dark);
+    margin: 0;
+  }
+  .music-usb h3 em { font-style: italic; color: var(--gold); }
+  .music-usb-progress {
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-left: auto;
+  }
+  .music-usb-progress .done-count {
+    color: var(--gold);
+    font-weight: 500;
+  }
+  .music-usb-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--text-light);
+    font-size: 0.95rem;
+    margin-bottom: 1.2rem;
+  }
+  .music-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0.6rem;
+  }
+  .music-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.7rem 0.85rem;
+    background: var(--white);
+    border-radius: 8px;
+    border-left: 3px solid var(--gold);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s, border-color 0.2s;
+  }
+  .music-item:hover {
+    background: var(--cream);
+    transform: translateX(2px);
+  }
+  .music-item.done {
+    border-left-color: var(--green-mid);
+    background: rgba(127, 184, 122, 0.06);
+  }
+  .music-check-box {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--gold);
+    border-radius: 4px;
+    background: var(--white);
+    margin-top: 3px;
+    position: relative;
+    transition: all 0.2s;
+  }
+  .music-item.done .music-check-box {
+    background: var(--green-mid);
+    border-color: var(--green-mid);
+  }
+  .music-item.done .music-check-box::after {
+    content: '✓';
+    position: absolute;
+    left: 3px; top: -2px;
+    color: var(--white);
+    font-size: 13px;
+    font-weight: bold;
+  }
+  .music-info { flex: 1; min-width: 0; }
+  .music-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 1.05rem;
+    color: var(--text-dark);
+    line-height: 1.2;
+  }
+  .music-item.done .music-title {
+    color: var(--text-light);
+    text-decoration: line-through;
+    text-decoration-color: var(--gold-light);
+  }
+  .music-artist {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--gold);
+    margin-top: 1px;
+  }
+  .music-moment {
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-top: 4px;
+  }
+
   /* ── CHECKLIST ── */
   #checklist {
     background: linear-gradient(180deg, var(--cream) 0%, var(--cream-dark) 100%);
@@ -1167,6 +1289,19 @@
       <p class="day-subtitle">Cliquez pour cocher au fur et à mesure</p>
     </div>
 
+    <!-- Encart musiques : clé USB -->
+    <div class="music-usb">
+      <div class="music-usb-head">
+        <span class="music-usb-icon">🎵</span>
+        <h3>Musiques sur la <em>clé USB</em></h3>
+        <span class="music-usb-progress" id="music-progress">
+          <span class="done-count" id="music-done">0</span> / <span id="music-total">0</span>
+        </span>
+      </div>
+      <p class="music-usb-sub">À préparer et à cocher au fur et à mesure</p>
+      <div class="music-list" id="music-list"></div>
+    </div>
+
     <div class="checklist-grid" id="checklist-grid">
       <!-- Rendu dynamiquement par JS -->
     </div>
@@ -1266,7 +1401,8 @@
         "Prévoir une lanterne pour la cérémonie",
         "Acheter des ciseaux pour la cérémonie du ruban",
         "Emplacement fin de cérémonie : livre d'or + urne + lanterne installés ensemble",
-        "Acheter sel et bouteille au Portugal"
+        "Acheter sel et bouteille au Portugal",
+        "Acheter une clé USB (pour les musiques)"
       ]
     },
     {
@@ -1408,6 +1544,72 @@
   ];
 
   // ─────────────────────────────────────────────
+  //  Musiques à préparer sur la clé USB
+  // ─────────────────────────────────────────────
+  const MUSIC_TRACKS = [
+    {
+      key: 'como-tu',
+      title: '« Como tu »',
+      artist: '',
+      moment: 'Entrée marié & cortège · 16h03'
+    },
+    {
+      key: 'lua-ivandro',
+      title: '« Lua »',
+      artist: 'Ivandro',
+      moment: 'Entrée de la mariée · 16h10'
+    },
+    {
+      key: 'fond-voeux',
+      title: 'Fond sonore des vœux',
+      artist: 'Retouche musicale',
+      moment: 'Diffusion audio des vœux · 16h45'
+    },
+    {
+      key: 'sortie-maries',
+      title: 'Sortie des mariés',
+      artist: 'À choisir',
+      moment: 'Fin de cérémonie · 17h00'
+    },
+    {
+      key: 'ambiance-accueil',
+      title: 'Playlist d\'ambiance',
+      artist: 'Douce',
+      moment: 'Accueil des invités · 15h30'
+    },
+    {
+      key: 'que-calor',
+      title: '« Que Calor »',
+      artist: 'Major Lazer',
+      moment: 'Entrée team témoin en salle · 19h18'
+    },
+    {
+      key: 'baile-inolvidable',
+      title: '« Baile Inolvidable »',
+      artist: 'Refrain à partir de 2:35',
+      moment: 'Entrée des mariés en salle · 19h20'
+    },
+    {
+      key: 'jeu2-photo',
+      title: 'Musique surprise Jeu 2',
+      artist: 'À choisir',
+      moment: 'Animation photo de groupe · 20h55'
+    },
+    {
+      key: 'premiere-danse',
+      title: 'Première danse',
+      artist: 'À choisir',
+      moment: 'Ouverture de bal · ~23h00'
+    },
+    {
+      key: 'playlist-soiree',
+      title: 'Playlist soirée / DJ',
+      artist: 'À finaliser',
+      moment: 'Soirée & bal'
+    }
+  ];
+
+  // ─────────────────────────────────────────────
   //  Indicateur de synchro
   // ─────────────────────────────────────────────
   const indicator = document.getElementById('sync-indicator');
@@ -1450,8 +1652,9 @@
   //    state.custom          : { itemKey: { text, categoryId, ts } } — items ajoutés
   //    state.userCats        : { catId:  { title, ts } } — catégories ajoutées
   //    state.deletedDefaults : { itemKey: true } — items par défaut supprimés
+  //    state.musicChecked    : { trackKey: true } — musiques prêtes sur clé USB
   // ─────────────────────────────────────────────
-  let state = { checked: {}, custom: {}, userCats: {}, deletedDefaults: {} };
+  let state = { checked: {}, custom: {}, userCats: {}, deletedDefaults: {}, musicChecked: {} };
   let firebaseReady = false;
   let docRef = null;
 
@@ -1467,7 +1670,8 @@
         checked:         s.checked         || {},
         custom:          s.custom          || {},
         userCats:        s.userCats        || {},
-        deletedDefaults: s.deletedDefaults || {}
+        deletedDefaults: s.deletedDefaults || {},
+        musicChecked:    s.musicChecked    || {}
       };
     } catch { return null; }
   }
@@ -1726,11 +1930,52 @@
   });
 
   // ─────────────────────────────────────────────
+  //  Rendu et interactions de la clé USB musiques
+  // ─────────────────────────────────────────────
+  const musicListEl = document.getElementById('music-list');
+  const musicDoneEl = document.getElementById('music-done');
+  const musicTotalEl = document.getElementById('music-total');
+
+  function renderMusicList() {
+    musicListEl.innerHTML = MUSIC_TRACKS.map(t => {
+      const done = !!state.musicChecked[t.key];
+      const artistHtml = t.artist
+        ? `<div class="music-artist">${escapeHtml(t.artist)}</div>` : '';
+      return `
+        <div class="music-item ${done ? 'done' : ''}" data-music-key="${escapeHtml(t.key)}">
+          <div class="music-check-box"></div>
+          <div class="music-info">
+            <div class="music-title">${escapeHtml(t.title)}</div>
+            ${artistHtml}
+            <div class="music-moment">${escapeHtml(t.moment)}</div>
+          </div>
+        </div>`;
+    }).join('');
+
+    const total = MUSIC_TRACKS.length;
+    const done = MUSIC_TRACKS.filter(t => state.musicChecked[t.key]).length;
+    musicDoneEl.textContent = done;
+    musicTotalEl.textContent = total;
+  }
+
+  musicListEl.addEventListener('click', async (e) => {
+    const item = e.target.closest('.music-item');
+    if (!item) return;
+    const key = item.dataset.musicKey;
+    if (!key) return;
+    const newChecked = !state.musicChecked[key];
+    state.musicChecked = { ...state.musicChecked, [key]: newChecked };
+    renderMusicList();
+    await persist({ musicChecked: { [key]: newChecked } });
+  });
+
+  // ─────────────────────────────────────────────
   //  Init : load local d'abord, puis Firestore
   // ─────────────────────────────────────────────
   const local = loadLocal();
   if (local) state = local;
   renderChecklist();
+  renderMusicList();
 
   try {
     const app = initializeApp(firebaseConfig);
@@ -1744,10 +1989,12 @@
         checked:         data.checked         || {},
         custom:          data.custom          || {},
         userCats:        data.userCats        || {},
-        deletedDefaults: data.deletedDefaults || {}
+        deletedDefaults: data.deletedDefaults || {},
+        musicChecked:    data.musicChecked    || {}
       };
       saveLocal();
       renderChecklist();
+      renderMusicList();
       showIndicator('Synchronisé', '#7FB87A', true);
     }, (err) => {
       console.warn('Firestore listen error:', err);
