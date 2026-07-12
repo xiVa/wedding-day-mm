@@ -275,6 +275,52 @@
   }
   .tl-music::before { content: '♪'; font-style: normal; }
 
+  /* ── ÉDITION INLINE de la timeline ── */
+  .tl-editable {
+    position: relative;
+    transition: background 0.2s;
+    border-radius: 4px;
+  }
+  .tl-editable:hover {
+    background: rgba(201, 151, 74, 0.06);
+  }
+  .tl-edit-btn {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--white);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    cursor: pointer;
+    font-size: 11px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    opacity: 0;
+    transition: opacity 0.2s, background 0.2s, color 0.2s;
+    z-index: 5;
+  }
+  .tl-editable:hover .tl-edit-btn { opacity: 1; }
+  .tl-edit-btn:hover {
+    background: var(--gold);
+    color: var(--white);
+  }
+  [contenteditable="true"].tl-editing {
+    background: var(--white);
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(201, 151, 74, 0.15);
+    cursor: text;
+  }
+  [contenteditable="true"].tl-editing:focus {
+    outline-color: var(--gold);
+  }
+
   /* ── SEPARATOR ── */
   .sep {
     text-align: center;
@@ -882,7 +928,7 @@
           <span class="tl-duration">5 min</span>
           <span class="tl-title">Dernier rappel</span>
         </div>
-        <p class="tl-desc">Joba rassemble les intervenants, vérifie l'ordre de passage, signal aux musiciens.</p>
+        <p class="tl-desc">Joba rassemble les intervenants, vérifie l'ordre de passage.</p>
       </div>
     </div>
   </div>
@@ -1075,7 +1121,7 @@
   <div class="day-header">
     <span class="day-tag">17h00 — 19h00 · Vin d'honneur</span>
     <h2 class="day-title">Vin d'honneur &amp; <em>photos de groupe</em></h2>
-    <p class="day-subtitle">Hangar à côté du hall principal · bulles et clichés</p>
+    <p class="day-subtitle">Pergola à côté du hall principal · bulles et clichés</p>
   </div>
 
   <div class="timeline">
@@ -1084,9 +1130,9 @@
         <div class="tl-head">
           <span class="tl-time">17h00</span>
           <span class="tl-duration">30 min</span>
-          <span class="tl-title">Transition vers le hangar</span>
+          <span class="tl-title">Transition vers la pergola</span>
         </div>
-        <p class="tl-desc">Déplacement des invités du jardin vers le hangar (à côté du hall principal). Photos express des mariés.</p>
+        <p class="tl-desc">Déplacement des invités du jardin vers la pergola (à côté du hall principal). Photos express des mariés.</p>
       </div>
     </div>
 
@@ -1097,7 +1143,7 @@
           <span class="tl-duration">5 min</span>
           <span class="tl-title">Discours d'ouverture des mariés</span>
         </div>
-        <p class="tl-desc">Marion &amp; Mickaël ouvrent le vin d'honneur par un mot aux invités. Champagne, cocktails et petits fours sont servis dans le hangar.</p>
+        <p class="tl-desc">Marion &amp; Mickaël ouvrent le vin d'honneur par un mot aux invités. Champagne, cocktails et petits fours sont servis dans la pergola.</p>
       </div>
     </div>
 
@@ -1108,7 +1154,7 @@
           <span class="tl-duration">1h25</span>
           <span class="tl-title">Photos de groupe + cocktail</span>
         </div>
-        <p class="tl-desc"><strong>Joba appelle les groupes un par un au micro</strong> pendant que le reste des invités profite du vin d'honneur dans le hangar. <strong>Maxime reste avec les mariés</strong> pendant les séances photos et communique avec Joba par <strong>talkie-walkie</strong> pour signaler les personnes manquantes.</p>
+        <p class="tl-desc"><strong>Joba appelle les groupes un par un au micro</strong> pendant que le reste des invités profite du vin d'honneur dans la pergola. <strong>Maxime reste avec les mariés</strong> pendant les séances photos et communique avec Joba par <strong>talkie-walkie</strong> pour signaler les personnes manquantes.</p>
       </div>
     </div>
 
@@ -1571,7 +1617,7 @@
         "2e versement de 750 R$ (Andreia recontacte)",
         "Paiement final 1 semaine avant le mariage",
         "Checklist Excel du domaine reçue (3 semaines avant)",
-        "Lieux confirmés : jardin châtaigniers / hangar / salle / cascade"
+        "Lieux confirmés : jardin châtaigniers / pergola / salle / cascade"
       ]
     }
   ];
@@ -1687,8 +1733,9 @@
   //    state.deletedDefaults  : { itemKey: true } — items par défaut supprimés
   //    state.musicChecked     : { trackKey: true } — musiques prêtes sur clé USB
   //    state.modifiedDefaults : { itemKey: "nouveau texte" } — items par défaut renommés
+  //    state.planningEdits    : { editKey: "nouveau HTML" } — textes du planning modifiés
   // ─────────────────────────────────────────────
-  let state = { checked: {}, custom: {}, userCats: {}, deletedDefaults: {}, musicChecked: {}, modifiedDefaults: {} };
+  let state = { checked: {}, custom: {}, userCats: {}, deletedDefaults: {}, musicChecked: {}, modifiedDefaults: {}, planningEdits: {} };
   let firebaseReady = false;
   let docRef = null;
   let isEditing = false;
@@ -1707,7 +1754,8 @@
         userCats:         s.userCats         || {},
         deletedDefaults:  s.deletedDefaults  || {},
         musicChecked:     s.musicChecked     || {},
-        modifiedDefaults: s.modifiedDefaults || {}
+        modifiedDefaults: s.modifiedDefaults || {},
+        planningEdits:    s.planningEdits    || {}
       };
     } catch { return null; }
   }
@@ -2032,6 +2080,134 @@
   });
 
   // ─────────────────────────────────────────────
+  //  Édition inline des textes de la timeline
+  //  Chaque .tl-title / .tl-desc / .tl-music reçoit un identifiant
+  //  basé sur sa position DOM (index global + type + sous-index).
+  //  Les modifications sont stockées dans state.planningEdits
+  //  et resynchronisées Firestore comme le reste.
+  // ─────────────────────────────────────────────
+  function initPlanningEditing() {
+    // Assigner un key stable à chaque élément éditable
+    let itemIdx = 0;
+    document.querySelectorAll('.tl-item').forEach(tlItem => {
+      const idx = itemIdx++;
+      const titleEl = tlItem.querySelector('.tl-title');
+      if (titleEl) titleEl.dataset.editKey = `item-${idx}-title`;
+      const descEls = tlItem.querySelectorAll('.tl-desc');
+      descEls.forEach((el, i) => { el.dataset.editKey = `item-${idx}-desc-${i}`; });
+      const musicEl = tlItem.querySelector('.tl-music');
+      if (musicEl) musicEl.dataset.editKey = `item-${idx}-music`;
+    });
+
+    // Rendre chaque élément .tl-editable, ajouter un crayon
+    document.querySelectorAll('[data-edit-key]').forEach(el => {
+      el.classList.add('tl-editable');
+      const btn = document.createElement('button');
+      btn.className = 'tl-edit-btn';
+      btn.setAttribute('aria-label', 'Modifier');
+      btn.textContent = '✎';
+      el.appendChild(btn);
+    });
+
+    applyPlanningEdits();
+  }
+
+  function applyPlanningEdits() {
+    if (!state.planningEdits) return;
+    document.querySelectorAll('[data-edit-key]').forEach(el => {
+      const k = el.dataset.editKey;
+      if (state.planningEdits[k] !== undefined) {
+        // Retirer le bouton crayon avant de remplacer le contenu
+        const btn = el.querySelector('.tl-edit-btn');
+        el.innerHTML = state.planningEdits[k];
+        // Réajouter le bouton
+        const newBtn = document.createElement('button');
+        newBtn.className = 'tl-edit-btn';
+        newBtn.setAttribute('aria-label', 'Modifier');
+        newBtn.textContent = '✎';
+        el.appendChild(newBtn);
+      }
+    });
+  }
+
+  function startPlanningEdit(el) {
+    if (isEditing) return;
+    if (el.classList.contains('tl-editing')) return;
+    isEditing = true;
+
+    // Retirer le bouton crayon pendant l'édition
+    const btn = el.querySelector('.tl-edit-btn');
+    if (btn) btn.remove();
+
+    const key = el.dataset.editKey;
+    const originalHTML = el.innerHTML;
+
+    el.setAttribute('contenteditable', 'true');
+    el.classList.add('tl-editing');
+    el.focus();
+
+    // Placer le curseur à la fin
+    try {
+      const range = document.createRange();
+      range.selectNodeContents(el);
+      range.collapse(false);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    } catch (e) {}
+
+    let finished = false;
+    const finish = async (save) => {
+      if (finished) return;
+      finished = true;
+      el.removeAttribute('contenteditable');
+      el.classList.remove('tl-editing');
+      isEditing = false;
+
+      const newHTML = el.innerHTML.trim();
+
+      if (save && newHTML && newHTML !== originalHTML) {
+        state.planningEdits = { ...state.planningEdits, [key]: newHTML };
+        await persist({ planningEdits: { [key]: newHTML } });
+      } else {
+        // Restaurer l'original si annulation
+        el.innerHTML = originalHTML;
+      }
+
+      // Réajouter le bouton crayon
+      const newBtn = document.createElement('button');
+      newBtn.className = 'tl-edit-btn';
+      newBtn.setAttribute('aria-label', 'Modifier');
+      newBtn.textContent = '✎';
+      el.appendChild(newBtn);
+    };
+
+    el.addEventListener('keydown', function handler(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        el.removeEventListener('keydown', handler);
+        finish(true);
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        el.removeEventListener('keydown', handler);
+        finish(false);
+      }
+    });
+    el.addEventListener('blur', () => finish(true), { once: true });
+  }
+
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.tl-edit-btn');
+    if (btn) {
+      e.stopPropagation();
+      const el = btn.parentElement;
+      if (el && el.dataset.editKey) startPlanningEdit(el);
+    }
+  });
+
+  initPlanningEditing();
+
+  // ─────────────────────────────────────────────
   //  Rendu et interactions de la clé USB musiques
   // ─────────────────────────────────────────────
   const musicListEl = document.getElementById('music-list');
@@ -2093,10 +2269,14 @@
         userCats:         data.userCats         || {},
         deletedDefaults:  data.deletedDefaults  || {},
         musicChecked:     data.musicChecked     || {},
-        modifiedDefaults: data.modifiedDefaults || {}
+        modifiedDefaults: data.modifiedDefaults || {},
+        planningEdits:    data.planningEdits    || {}
       };
       saveLocal();
-      if (!isEditing) renderChecklist();
+      if (!isEditing) {
+        renderChecklist();
+        applyPlanningEdits();
+      }
       renderMusicList();
       showIndicator('Synchronisé', '#7FB87A', true);
     }, (err) => {
