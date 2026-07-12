@@ -650,10 +650,10 @@
   }
 
   /* Items : bouton supprimer sur toutes les lignes */
-  .check-card li { padding-right: 1.8rem; }
+  .check-card li { padding-right: 3.4rem; }
+  .check-card li .edit,
   .check-card li .del {
     position: absolute;
-    right: 4px;
     top: 50%;
     transform: translateY(-50%);
     width: 22px;
@@ -663,7 +663,7 @@
     border: none;
     color: var(--text-light);
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 1;
     display: flex;
     align-items: center;
@@ -672,11 +672,38 @@
     opacity: 0.3;
     transition: background 0.2s, color 0.2s, opacity 0.2s;
   }
+  .check-card li .edit { right: 30px; font-size: 13px; }
+  .check-card li .del { right: 4px; font-size: 16px; }
+  .check-card li:hover .edit,
   .check-card li:hover .del { opacity: 1; }
+  .check-card li .edit:hover {
+    background: rgba(201, 151, 74, 0.15);
+    color: var(--gold);
+    opacity: 1;
+  }
   .check-card li .del:hover {
     background: rgba(232, 116, 74, 0.15);
     color: #c54a20;
     opacity: 1;
+  }
+
+  /* Mode édition d'un item */
+  .check-card li.editing {
+    padding: 0.4rem 0 0.4rem 1.6rem;
+  }
+  .check-card li.editing .edit,
+  .check-card li.editing .del { display: none; }
+  .check-card li .edit-input {
+    width: 100%;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    background: var(--white);
+    border: 1.5px solid var(--gold);
+    border-radius: 6px;
+    padding: 6px 10px;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(201, 151, 74, 0.12);
   }
 
   /* Bouton + dans le header de chaque carte */
@@ -1654,15 +1681,17 @@
   // ─────────────────────────────────────────────
   //  État global synchronisé via Firestore
   //  Structure :
-  //    state.checked         : { itemKey: true/false }   — coches
-  //    state.custom          : { itemKey: { text, categoryId, ts } } — items ajoutés
-  //    state.userCats        : { catId:  { title, ts } } — catégories ajoutées
-  //    state.deletedDefaults : { itemKey: true } — items par défaut supprimés
-  //    state.musicChecked    : { trackKey: true } — musiques prêtes sur clé USB
+  //    state.checked          : { itemKey: true/false }   — coches
+  //    state.custom           : { itemKey: { text, categoryId, ts } } — items ajoutés
+  //    state.userCats         : { catId:  { title, ts } } — catégories ajoutées
+  //    state.deletedDefaults  : { itemKey: true } — items par défaut supprimés
+  //    state.musicChecked     : { trackKey: true } — musiques prêtes sur clé USB
+  //    state.modifiedDefaults : { itemKey: "nouveau texte" } — items par défaut renommés
   // ─────────────────────────────────────────────
-  let state = { checked: {}, custom: {}, userCats: {}, deletedDefaults: {}, musicChecked: {} };
+  let state = { checked: {}, custom: {}, userCats: {}, deletedDefaults: {}, musicChecked: {}, modifiedDefaults: {} };
   let firebaseReady = false;
   let docRef = null;
+  let isEditing = false;
 
   // ─────────────────────────────────────────────
   //  Fallback localStorage
@@ -1673,11 +1702,12 @@
       if (!raw) return null;
       const s = JSON.parse(raw);
       return {
-        checked:         s.checked         || {},
-        custom:          s.custom          || {},
-        userCats:        s.userCats        || {},
-        deletedDefaults: s.deletedDefaults || {},
-        musicChecked:    s.musicChecked    || {}
+        checked:          s.checked          || {},
+        custom:           s.custom           || {},
+        userCats:         s.userCats         || {},
+        deletedDefaults:  s.deletedDefaults  || {},
+        musicChecked:     s.musicChecked     || {},
+        modifiedDefaults: s.modifiedDefaults || {}
       };
     } catch { return null; }
   }
@@ -1716,9 +1746,13 @@
     );
 
     grid.innerHTML = cats.map(cat => {
-      // Items par défaut : on filtre ceux qui ont été supprimés
+      // Items par défaut : on filtre ceux supprimés et on applique les textes modifiés
       const defaultItems = (cat.items || [])
-        .map(text => ({ text, key: slug(text), custom: false }))
+        .map(text => {
+          const key = slug(text);
+          const displayText = state.modifiedDefaults[key] || text;
+          return { text: displayText, key, custom: false };
+        })
         .filter(it => !state.deletedDefaults[it.key]);
       const customItems = (customByCat[cat.id] || [])
         .map(it => ({ text: it.text, key: it.key, custom: true }));
@@ -1730,7 +1764,8 @@
           <li data-key="${escapeHtml(it.key)}"
               data-custom="${it.custom ? '1' : '0'}"
               class="${checked ? 'done' : ''}">
-            ${escapeHtml(it.text)}
+            <span class="li-text">${escapeHtml(it.text)}</span>
+            <button class="edit" data-key="${escapeHtml(it.key)}" data-custom="${it.custom ? '1' : '0'}" aria-label="Modifier">✎</button>
             <button class="del" data-key="${escapeHtml(it.key)}" data-custom="${it.custom ? '1' : '0'}" aria-label="Supprimer">×</button>
           </li>`;
       }).join('');
@@ -1777,6 +1812,56 @@
   }
 
   // ─────────────────────────────────────────────
+  //  Édition inline d'une tâche
+  // ─────────────────────────────────────────────
+  function startEditing(li) {
+    if (li.classList.contains('editing')) return;
+    isEditing = true;
+    const key = li.dataset.key;
+    const isCustom = li.dataset.custom === '1';
+    const textEl = li.querySelector('.li-text');
+    const originalText = textEl ? textEl.textContent : '';
+
+    li.classList.add('editing');
+    li.innerHTML = `<input type="text" class="edit-input" value="${escapeHtml(originalText)}" />`;
+    const input = li.querySelector('.edit-input');
+    input.focus();
+    input.select();
+
+    let done = false;
+    const finish = async (save) => {
+      if (done) return;
+      done = true;
+      isEditing = false;
+      const newText = input.value.trim();
+
+      if (save && newText && newText !== originalText) {
+        if (isCustom) {
+          if (state.custom[key]) {
+            state.custom[key] = { ...state.custom[key], text: newText };
+            renderChecklist();
+            await persist({ custom: { [key]: state.custom[key] } });
+            return;
+          }
+        } else {
+          state.modifiedDefaults = { ...state.modifiedDefaults, [key]: newText };
+          renderChecklist();
+          await persist({ modifiedDefaults: { [key]: newText } });
+          return;
+        }
+      }
+      // Cas où on annule ou pas de changement : re-render pour restaurer
+      renderChecklist();
+    };
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); finish(true); }
+      else if (e.key === 'Escape') { e.preventDefault(); finish(false); }
+    });
+    input.addEventListener('blur', () => finish(true));
+  }
+
+  // ─────────────────────────────────────────────
   //  Événements (délégation sur la grille)
   // ─────────────────────────────────────────────
   grid.addEventListener('click', async (e) => {
@@ -1786,6 +1871,16 @@
       e.stopPropagation();
       const catId = addBtn.dataset.cat;
       openModal(catId);
+      return;
+    }
+
+    // Bouton "✎" : entrer en mode édition inline
+    const editBtn = e.target.closest('.edit');
+    if (editBtn) {
+      e.stopPropagation();
+      const li = editBtn.closest('li');
+      if (!li) return;
+      startEditing(li);
       return;
     }
 
@@ -1831,6 +1926,7 @@
     // Toggle d'un li
     const li = e.target.closest('li');
     if (!li || !grid.contains(li)) return;
+    if (li.classList.contains('editing')) return; // pas de toggle en édition
     const key = li.dataset.key;
     if (!key) return;
     const newChecked = !li.classList.contains('done');
@@ -1992,14 +2088,15 @@
       firebaseReady = true;
       const data = snap.exists() ? snap.data() : {};
       state = {
-        checked:         data.checked         || {},
-        custom:          data.custom          || {},
-        userCats:        data.userCats        || {},
-        deletedDefaults: data.deletedDefaults || {},
-        musicChecked:    data.musicChecked    || {}
+        checked:          data.checked          || {},
+        custom:           data.custom           || {},
+        userCats:         data.userCats         || {},
+        deletedDefaults:  data.deletedDefaults  || {},
+        musicChecked:     data.musicChecked     || {},
+        modifiedDefaults: data.modifiedDefaults || {}
       };
       saveLocal();
-      renderChecklist();
+      if (!isEditing) renderChecklist();
       renderMusicList();
       showIndicator('Synchronisé', '#7FB87A', true);
     }, (err) => {
